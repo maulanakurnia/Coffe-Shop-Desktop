@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 public class Kopi extends JFrame{
-		JLabel lTitle,lJumlah,lKopi1,lKopi2,lKopi3,lPilih,lUsername,g1;
+		JLabel lTitle,lJumlah,lPilih,lUsername,g1;
 		JButton bPesan, bBack;
 		JTextField  fJumlah,fPilih,fUsername;
 
@@ -18,17 +18,6 @@ public class Kopi extends JFrame{
 				lTitle.setFont(new Font("arial black", Font.PLAIN, 20));
 				lTitle.setForeground(new Color(247, 252, 255));
 
-				lKopi1 = new JLabel("1. Kopi Item");
-				lKopi1.setFont(new Font("arial black", Font.PLAIN, 18));
-				lKopi1.setForeground(new Color(247, 252, 255));
-
-				lKopi2 = new JLabel("2. Kopi Cappucino ");
-				lKopi2.setFont(new Font("arial black", Font.PLAIN, 18));
-				lKopi2.setForeground(new Color(247, 252, 255));
-
-				lKopi3 = new JLabel("3. Kopi Mochacino");
-				lKopi3.setFont(new Font("arial black", Font.PLAIN, 18));
-				lKopi3.setForeground(new Color(247, 252, 255));
 
 				lPilih = new JLabel("Choose number : ");
 				lPilih.setFont(new Font("arial black", Font.PLAIN, 18));
@@ -75,17 +64,11 @@ public class Kopi extends JFrame{
 				add(fJumlah);
 				add(lUsername);
 				add(fUsername);
-				add(lKopi1);
-				add(lKopi2);
-				add(lKopi3);
 				add(bPesan);
 				add(bBack);
 				add(g1);
 
 				lTitle.setBounds(70, 20, 250, 30);
-				lKopi1.setBounds(50, 50, 250, 30);
-				lKopi2.setBounds(50, 80, 250, 30);
-				lKopi3.setBounds(50, 110, 250, 30);
 
 
 				lPilih.setBounds(50, 150, 250, 30);

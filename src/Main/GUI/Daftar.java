@@ -1,15 +1,19 @@
 package Main.GUI;
 
+import Main.Controller.Koneksi;
+import Main.Controller.UserSession;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Daftar extends JFrame{
-		JLabel lTitle, lUsername,lPassword;
-		JButton bSignUp, bBack,bExit;
-		JTextField fUsername, fPassword;
+		ResultSet resultSet;
+		Statement statement;
 
 		JFrame window 	= new JFrame("Daftar Akun");
 		JLabel lNama		= new JLabel("Nama :");
@@ -37,8 +41,51 @@ public class Daftar extends JFrame{
 				bDaftar.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-								window.setVisible(false);
-								new Login();
+								Koneksi koneksi = new Koneksi();
+								String nama 	= fNama.getText();
+								String email 	= fEmail.getText();
+								String sandi 	= fSandi.getText();
+								String sandiK = fKSandi.getText();
+								if(nama.isEmpty() || email.isEmpty() || sandi.isEmpty() || sandiK.isEmpty()){
+										if(nama.isEmpty()){
+												JOptionPane.showMessageDialog(null, "Nama Tidak boleh kosong!","Peringatan",JOptionPane.WARNING_MESSAGE);
+										}else if(email.isEmpty()){
+												JOptionPane.showMessageDialog(null, "Email Tidak boleh kosong!","Peringatan",JOptionPane.WARNING_MESSAGE);
+										} else if(sandi.isEmpty()){
+												JOptionPane.showMessageDialog(null, "Sandi boleh kosong!","Peringatan",JOptionPane.WARNING_MESSAGE);
+										} else {
+												JOptionPane.showMessageDialog(null, "Konfirmasi Sandi Tidak boleh kosong!","Peringatan",JOptionPane.WARNING_MESSAGE);
+										}
+								}else if(sandi != sandiK){
+										JOptionPane.showMessageDialog(null, "Sandi tidak sama!","Peringatan",JOptionPane.WARNING_MESSAGE);
+										fSandi.setText("");
+										fKSandi.setText("");
+								}else {
+										try {
+
+												statement = koneksi.getConnection().createStatement();
+												String sql = "SELECT * FROM user a INNER JOIN role b WHERE email='" + email + "' AND sandi='" + sandi + "'";
+												resultSet = statement.executeQuery(sql);
+
+												if (resultSet.next()) {
+														window.setVisible(false);
+														new Menu();
+														statement.close();
+														window.setVisible(false);
+														new Login();
+
+												} else {
+
+														fEmail.setText("");
+														fEmail.setText("");
+														fSandi.setText("");
+												}
+										} catch (SQLException sqlError) {
+												JOptionPane.showMessageDialog(rootPane, "Data Gagal Ditampilkan" + sqlError);
+										} catch (ClassNotFoundException classError) {
+												JOptionPane.showMessageDialog(rootPane, "Driver tidak ditemukan !!");
+										}
+								}
 						}
 				});
 

@@ -1,11 +1,24 @@
 package Main.GUI;
 
+import Main.Controller.DataUser;
+import Main.Controller.Koneksi;
+import Main.Controller.UserSession;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Login extends JFrame {
+		ResultSet resultSet;
+		Statement statement;
+		String id = null;
+		int role	= 0;
+		String nama	= null;
 
 		JFrame window 	= new JFrame("Login");
 		JLabel lEmail		= new JLabel("Email : ");
@@ -31,8 +44,38 @@ public class Login extends JFrame {
 				bMasuk.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-								window.setVisible(false);
-								new Menu();
+								Koneksi koneksi = new Koneksi();
+								String email = fEmail.getText();
+								String sandi = fSandi.getText();
+
+								try {
+										statement = koneksi.getConnection().createStatement();
+										String sql = "SELECT * FROM user a INNER JOIN role b WHERE email='"+ email + "' AND sandi='"+ sandi +"'";
+										resultSet = statement.executeQuery(sql);
+
+										if(resultSet.next()){
+												id 		= resultSet.getString("id");
+												UserSession.setId_user(id);
+												nama 	= resultSet.getString("nama");
+												UserSession.setNama(nama);
+												role 	= resultSet.getInt("id_role");
+												UserSession.setRole(role);
+
+												window.setVisible(false);
+												new Menu();
+												statement.close();
+
+										}else {
+												JOptionPane.showMessageDialog(null, "Email atau sandi salah!");
+												fEmail.setText("");
+												fSandi.setText("");
+										}
+								} catch (SQLException sqlError) {
+										JOptionPane.showMessageDialog(rootPane, "Data Gagal Ditampilkan" + sqlError);
+								} catch (ClassNotFoundException classError) {
+										JOptionPane.showMessageDialog(rootPane, "Driver tidak ditemukan !!");
+								}
+
 						}
 				});
 				bDaftar.addActionListener(new ActionListener() {

@@ -1,5 +1,8 @@
 package Main.GUI;
 
+import Main.Controller.DataUser;
+import Main.Controller.UserSession;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,14 +10,19 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 public class Menu extends JFrame {
+		DataUser user 		= new DataUser();
 		JFrame window 		= new JFrame("Coffee House");
+		JLabel halo				= new JLabel();
 		JButton bKopi 		= new JButton("Menu");
 		JButton bDompet 	= new JButton("Saldo");
 		JButton bBayar 		= new JButton("Bayar");
 		JButton bPesan 		= new JButton("Daftar Pesanan");
-		JButton bExit 		= new JButton("Keluar");
+		JButton bExit 		= new JButton("X");
 		JButton bLogout 	= new JButton("Log Out");
 
+		String id	 	= UserSession.getId_user();
+		int role 		= UserSession.getRole();
+		String nama = UserSession.getNama();
 
 		public Menu(){
 				initComponents();
@@ -29,7 +37,7 @@ public class Menu extends JFrame {
 				bKopi.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-								setVisible(false);
+								window.setVisible(false);
 								new Kopi();
 						}
 				});
@@ -97,7 +105,7 @@ public class Menu extends JFrame {
 				bLogout.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-								setVisible(false);
+								window.setVisible(false);
 								new Login();
 						}
 				});
@@ -105,10 +113,15 @@ public class Menu extends JFrame {
 
 		public void initComponents(){
 				window.getContentPane().setBackground(new Color(28, 27, 27));
+				window.add(halo);
+						halo.setText("Halo, "+nama);
+						halo.setFont(new Font("Arial", Font.BOLD,20));
+						halo.setForeground(new Color(255,255,255));
+						halo.setBounds(150,30,220,30);
 
 				window.add(bKopi);
 						bKopi.setBounds(10, 120, 220, 30);
-						bKopi.setForeground(new Color(255,255,255));
+						bKopi.setForeground(new Color(255, 255, 255));
 						bKopi.setBackground(new Color(82, 77, 64));
 
 				window.add(bPesan);
@@ -129,12 +142,12 @@ public class Menu extends JFrame {
 				window.add(bLogout);
 						bLogout.setBackground(new Color(102, 55, 51));
 						bLogout.setForeground(new Color(255,255,255));
-						bLogout.setBounds(140, 200, 90, 30);
+						bLogout.setBounds(380, 200, 90, 30);
 
 				window.add(bExit);
 						bExit.setBackground(new Color(102, 55, 51));
 						bExit.setForeground(new Color(255,255,255));
-						bExit.setBounds(250, 200, 90, 30);
+						bExit.setBounds(325, 200, 45, 30);
 
 		}
 }
