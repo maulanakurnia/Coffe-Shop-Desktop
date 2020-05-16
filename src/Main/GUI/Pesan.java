@@ -36,6 +36,7 @@ public class Pesan extends JFrame{
 
 
 	public Pesan(){
+			TabelProduk tabelProduk = new TabelProduk();
 			initComponents();
 			loadKopi();
 			window.setLayout(null);
@@ -54,14 +55,17 @@ public class Pesan extends JFrame{
 							JOptionPane.showMessageDialog(null, "Berhasil Memesan!");
 							int result = JOptionPane.showConfirmDialog (null, "Ingin Memesan Lagi?","INFO", JOptionPane.YES_NO_OPTION);
 							if(result == JOptionPane.YES_OPTION) {
+								tabelProduk.window.setVisible(false);
 								window.setVisible(false);
 								new Pesan();
 							}else {
 									int result2 = JOptionPane.showConfirmDialog(null, "Ingin Membayar?", "INFO", JOptionPane.YES_NO_OPTION);
 									if (result2 == JOptionPane.YES_OPTION) {
+										tabelProduk.window.setVisible(false);
 										window.setVisible(false);
 										new Daftar();
 									}else{
+										tabelProduk.window.setVisible(false);
 										window.setVisible(false);
 										new Menu();
 									}
@@ -74,11 +78,12 @@ public class Pesan extends JFrame{
 				});
 
 				bKembali.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-								window.setVisible(false);
-								new Menu();
-						}
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						tabelProduk.window.setVisible(false);
+						window.setVisible(false);
+						new Menu();
+					}
 				});
 		}
 
@@ -128,10 +133,10 @@ public class Pesan extends JFrame{
 
 	public void pesanKopi(String vid_kopi, String vjumlah){
 		int jumlah = Integer.parseInt(vjumlah);
-		DataProduk dataProduk = new DataProduk();
+		UserSession session = new UserSession();
 		String kode;
 		try{
-			if(dataProduk.getIdPemesanan() == null) {
+			if(session.getIdPemesanan() == null) {
 				statement = koneksi.getConnection().createStatement();
 				String sqlMax = "SELECT max(id_pemesanan) as max_kode FROM pemesanan";
 				resultSet = statement.executeQuery(sqlMax);
@@ -139,7 +144,7 @@ public class Pesan extends JFrame{
 					String kode_pmsn = resultSet.getString("max_kode");
 					if(kode_pmsn == null ){
 						kode = "PMSN-001";
-						dataProduk.setIdPemesanan(kode);
+						session.setIdPemesanan(kode);
 					}else {
 						String kode_pmsn_bersih = kode_pmsn.substring(5, 8);
 						int no_urut = Integer.parseInt(kode_pmsn_bersih);
@@ -148,13 +153,13 @@ public class Pesan extends JFrame{
 						String pmsn = "PMSN-";
 						kode = pmsn + String.format("%03d", no_urut);
 
-						dataProduk.setIdPemesanan(kode);
+						session.setIdPemesanan(kode);
 					}
 					statement.executeUpdate("INSERT INTO pemesanan VALUES('" + kode + "','" + UserSession.getId_user() + "','" + vid_kopi + "','" + jumlah + "')");
 					pesan = true;
 				}
 			}else{
-				statement.executeUpdate("INSERT INTO pemesanan VALUES('" + dataProduk.getIdPemesanan() + "','" + UserSession.getId_user() + "','" + vid_kopi + "','" + jumlah + "')");
+				statement.executeUpdate("INSERT INTO pemesanan VALUES('" + session.getIdPemesanan() + "','" + UserSession.getId_user() + "','" + vid_kopi + "','" + jumlah + "')");
 				pesan = true;
 			}
 			resultSet.close();
