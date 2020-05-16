@@ -1,5 +1,6 @@
 package Main.GUI;
 
+import Main.Controller.DataProduk;
 import Main.Controller.DataUser;
 import Main.Controller.UserSession;
 
@@ -37,8 +38,8 @@ public class Menu extends JFrame {
 				bKopi.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-								window.setVisible(false);
-								new Kopi();
+							window.setVisible(false);
+							new Kopi();
 						}
 				});
 //				bBayar.addActionListener(new ActionListener() {
@@ -105,8 +106,11 @@ public class Menu extends JFrame {
 				bLogout.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-								window.setVisible(false);
-								new Login();
+							DataProduk produk = new DataProduk();
+							produk.setIdPemesanan(null);
+							UserSession.setId_user(null);
+							window.setVisible(false);
+							new Login();
 						}
 				});
 		}
