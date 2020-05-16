@@ -1,15 +1,10 @@
 package Main.Controller;
 
 public class DataProduk {
-	private static String idPemesanan;
 	String idKopi;
 	int stok;
 	float harga;
 	String namaKopi;
-
-	public DataProduk(String vidKopi){
-		idKopi 		= vidKopi;
-	}
 
     public DataProduk() {
 
@@ -38,8 +33,4 @@ public class DataProduk {
 	public void setStok(int vstok){
 			stok = vstok;
 	}
-
-	public String getIdPemesanan(){return idPemesanan;}
-	public void setIdPemesanan(String vidPemesanan){ idPemesanan = vidPemesanan;}
-
 }
