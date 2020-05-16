@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Kopi extends JFrame{
+public class Pesan extends JFrame{
 		Koneksi koneksi = new Koneksi();
 		ResultSet resultSet;
 		Statement statement;
@@ -35,7 +35,7 @@ public class Kopi extends JFrame{
 		JButton bKembali = new JButton("Kembali");
 
 
-	public Kopi(){
+	public Pesan(){
 			initComponents();
 			loadKopi();
 			window.setLayout(null);
@@ -55,7 +55,7 @@ public class Kopi extends JFrame{
 							int result = JOptionPane.showConfirmDialog (null, "Ingin Memesan Lagi?","INFO", JOptionPane.YES_NO_OPTION);
 							if(result == JOptionPane.YES_OPTION) {
 								window.setVisible(false);
-								new Kopi();
+								new Pesan();
 							}else {
 									int result2 = JOptionPane.showConfirmDialog(null, "Ingin Membayar?", "INFO", JOptionPane.YES_NO_OPTION);
 									if (result2 == JOptionPane.YES_OPTION) {
