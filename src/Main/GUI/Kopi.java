@@ -52,24 +52,18 @@ public class Kopi extends JFrame{
 						if(pesan = true){
 							window.setVisible(false);
 							JOptionPane.showMessageDialog(null, "Berhasil Memesan!");
-							int dialogButton = JOptionPane.YES_NO_OPTION;
-							JOptionPane.showConfirmDialog (null, "Ingin Memesan Lagi?","INFO", dialogButton);
-							switch (dialogButton){
-								case 0:
-									window.setVisible(false);
-									new Kopi();
-									break;
-								case 1:
-									int dialogbutton2 = JOptionPane.YES_NO_OPTION;
-									JOptionPane.showConfirmDialog(null, "Ingin Membayar?", "INFO", dialogbutton2);
-									switch (dialogbutton2){
-										case 0:
-											new Daftar();
-											break;
-										case 1:
-											window.setVisible(false);
-											new Menu();
-											break;
+							int result = JOptionPane.showConfirmDialog (null, "Ingin Memesan Lagi?","INFO", JOptionPane.YES_NO_OPTION);
+							if(result == JOptionPane.YES_OPTION) {
+								window.setVisible(false);
+								new Kopi();
+							}else {
+									int result2 = JOptionPane.showConfirmDialog(null, "Ingin Membayar?", "INFO", JOptionPane.YES_NO_OPTION);
+									if (result2 == JOptionPane.YES_OPTION) {
+										window.setVisible(false);
+										new Daftar();
+									}else{
+										window.setVisible(false);
+										new Menu();
 									}
 							}
 						} else {
