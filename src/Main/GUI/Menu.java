@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 public class Menu extends JFrame {
 		DataUser user 		= new DataUser();
@@ -39,7 +38,7 @@ public class Menu extends JFrame {
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							window.setVisible(false);
-							new Kopi();
+							new Pesan();
 						}
 				});
 //				bBayar.addActionListener(new ActionListener() {
