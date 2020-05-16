@@ -12,8 +12,8 @@ import java.awt.event.ActionListener;
 public class Menu extends JFrame {
 		DataUser user 		= new DataUser();
 		JFrame window 		= new JFrame("Coffee House");
-		JLabel halo				= new JLabel();
-		JButton bKopi 		= new JButton("Menu");
+		JLabel halo			= new JLabel();
+		JButton bKopi 		= new JButton("Pesan Kopi");
 		JButton bDompet 	= new JButton("Saldo");
 		JButton bBayar 		= new JButton("Bayar");
 		JButton bPesan 		= new JButton("Daftar Pesanan");
@@ -57,13 +57,13 @@ public class Menu extends JFrame {
 //						}
 //				});
 //
-//				bPesan.addActionListener(new ActionListener() {
-//						@Override
-//						public void actionPerformed(ActionEvent e) {
-//								setVisible(false);
-//								new Pesan();
-//						}
-//				});
+				bPesan.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+								window.setVisible(false);
+								new DaftarPesanan();
+						}
+				});
         /*bRead.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -105,8 +105,7 @@ public class Menu extends JFrame {
 				bLogout.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							DataProduk produk = new DataProduk();
-							produk.setIdPemesanan(null);
+							UserSession.setIdPemesanan(null);
 							UserSession.setId_user(null);
 							window.setVisible(false);
 							new Login();
