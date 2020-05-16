@@ -52,19 +52,23 @@ public class DataUser {
 
 		public static String getMd5(String input)
 		{
-				try {
-						MessageDigest md = MessageDigest.getInstance("MD5");
-						byte[] messageDigest = md.digest(input.getBytes());
-						BigInteger no = new BigInteger(1, messageDigest);
-						String hashtext = no.toString(16);
-						while (hashtext.length() < 32) {
-								hashtext = "0" + hashtext;
-						}
-						return hashtext;
-				}
-				catch (NoSuchAlgorithmException e) {
-						JOptionPane.showMessageDialog(null, "Data Gagal Ditampilkan" + e);
-						throw new RuntimeException(e);
-				}
+			try {
+					MessageDigest md = MessageDigest.getInstance("MD5");
+					byte[] messageDigest = md.digest(input.getBytes());
+					BigInteger no = new BigInteger(1, messageDigest);
+					String hashtext = no.toString(16);
+					while (hashtext.length() < 32) {
+							hashtext = "0" + hashtext;
+					}
+					return hashtext;
+			}
+			catch (NoSuchAlgorithmException e) {
+					JOptionPane.showMessageDialog(null, "Data Gagal Ditampilkan" + e);
+					throw new RuntimeException(e);
+			}
+		}
+		public static boolean validasiEmail(String email) {
+			String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+			return email.matches(regex);
 		}
 }
