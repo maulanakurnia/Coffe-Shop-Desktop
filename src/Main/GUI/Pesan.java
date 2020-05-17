@@ -36,6 +36,7 @@ public class Pesan extends JFrame{
 
 
 	public Pesan(){
+			DataProduk produk = new DataProduk();
 			TabelProduk tabelProduk = new TabelProduk();
 			initComponents();
 			loadKopi();
@@ -45,32 +46,35 @@ public class Pesan extends JFrame{
 			window.setLocationRelativeTo(null);
 			window.setResizable(false);
 
-				bPesan.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
+			bPesan.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
 
-						pesanKopi(produks.get(cKopi.getSelectedIndex()).getIdKopi(),fjmlh.getText());
-						if(pesan = true){
+					produk.setHarga(produks.get(cKopi.getSelectedIndex()).getHarga());
+					produk.setStok(produks.get(cKopi.getSelectedIndex()).getStok());
+					produk.setTotal(produks.get(cKopi.getSelectedIndex()).getHarga(), Integer.parseInt(fjmlh.getText()));
+
+					pesanKopi(produks.get(cKopi.getSelectedIndex()).getIdKopi(),fjmlh.getText());
+					if(pesan = true){
+						window.setVisible(false);
+						JOptionPane.showMessageDialog(null, "Berhasil Memesan!");
+						int result = JOptionPane.showConfirmDialog (null, "Ingin Memesan Lagi?","INFO", JOptionPane.YES_NO_OPTION);
+						if(result == JOptionPane.YES_OPTION) {
+							tabelProduk.window.setVisible(false);
 							window.setVisible(false);
-							JOptionPane.showMessageDialog(null, "Berhasil Memesan!");
-							int result = JOptionPane.showConfirmDialog (null, "Ingin Memesan Lagi?","INFO", JOptionPane.YES_NO_OPTION);
-							if(result == JOptionPane.YES_OPTION) {
+							new Pesan();
+						}else {
+							int result2 = JOptionPane.showConfirmDialog(null, "Ingin Membayar?", "INFO", JOptionPane.YES_NO_OPTION);
+							if (result2 == JOptionPane.YES_OPTION) {
 								tabelProduk.window.setVisible(false);
 								window.setVisible(false);
-								new Pesan();
-							}else {
-									int result2 = JOptionPane.showConfirmDialog(null, "Ingin Membayar?", "INFO", JOptionPane.YES_NO_OPTION);
-									if (result2 == JOptionPane.YES_OPTION) {
-										tabelProduk.window.setVisible(false);
-										window.setVisible(false);
-										new Daftar();
-									}else{
-										tabelProduk.window.setVisible(false);
-										window.setVisible(false);
-										new Menu();
-									}
+								new Daftar();
+							}else{
+								tabelProduk.window.setVisible(false);
+								window.setVisible(false);
+								new Menu();
 							}
-						} else {
+						} } else {
 							JOptionPane.showMessageDialog(null, "gagal Memesan!");
 						}
 
@@ -113,30 +117,12 @@ public class Pesan extends JFrame{
 		bKembali.setBackground(new Color(145, 141, 58));
 	}
 
-//	private void loadKopi(){
-//		try{
-//			statement = koneksi.getConnection().createStatement();
-//			String sql = "SELECT * FROM produk";
-//			resultSet = statement.executeQuery(sql);
-//
-//			while (resultSet.next()){
-//				cKopi.addItem(resultSet.getString("nama_kopi"));
-//			}
-//			resultSet.close();
-//
-//		}catch (SQLException sqlError) {
-//			JOptionPane.showMessageDialog(rootPane, "Data Gagal Ditampilkan" + sqlError);
-//		} catch (ClassNotFoundException classError) {
-//			JOptionPane.showMessageDialog(rootPane, "Driver tidak ditemukan !!");
-//		}
-//	}
 
 	public void pesanKopi(String vid_kopi, String vjumlah){
 		int jumlah = Integer.parseInt(vjumlah);
-		UserSession session = new UserSession();
 		String kode;
 		try{
-			if(session.getIdPemesanan() == null) {
+			if(UserSession.getIdPemesanan() == null) {
 				statement = koneksi.getConnection().createStatement();
 				String sqlMax = "SELECT max(id_pemesanan) as max_kode FROM pemesanan";
 				resultSet = statement.executeQuery(sqlMax);
@@ -144,7 +130,7 @@ public class Pesan extends JFrame{
 					String kode_pmsn = resultSet.getString("max_kode");
 					if(kode_pmsn == null ){
 						kode = "PMSN-001";
-						session.setIdPemesanan(kode);
+						UserSession.setIdPemesanan(kode);
 					}else {
 						String kode_pmsn_bersih = kode_pmsn.substring(5, 8);
 						int no_urut = Integer.parseInt(kode_pmsn_bersih);
@@ -153,13 +139,13 @@ public class Pesan extends JFrame{
 						String pmsn = "PMSN-";
 						kode = pmsn + String.format("%03d", no_urut);
 
-						session.setIdPemesanan(kode);
+						UserSession.setIdPemesanan(kode);
 					}
 					statement.executeUpdate("INSERT INTO pemesanan VALUES('" + kode + "','" + UserSession.getId_user() + "','" + vid_kopi + "','" + jumlah + "')");
 					pesan = true;
 				}
 			}else{
-				statement.executeUpdate("INSERT INTO pemesanan VALUES('" + session.getIdPemesanan() + "','" + UserSession.getId_user() + "','" + vid_kopi + "','" + jumlah + "')");
+				statement.executeUpdate("INSERT INTO pemesanan VALUES('" + UserSession.getIdPemesanan() + "','" + UserSession.getId_user() + "','" + vid_kopi + "','" + jumlah + "')");
 				pesan = true;
 			}
 			resultSet.close();
