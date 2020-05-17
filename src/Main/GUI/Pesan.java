@@ -72,7 +72,7 @@ public class Pesan extends JFrame{
 							}else{
 								tabelProduk.window.setVisible(false);
 								window.setVisible(false);
-								new Menu();
+								new MenuUtama();
 							}
 						} } else {
 							JOptionPane.showMessageDialog(null, "gagal Memesan!");
@@ -86,7 +86,7 @@ public class Pesan extends JFrame{
 					public void actionPerformed(ActionEvent e) {
 						tabelProduk.window.setVisible(false);
 						window.setVisible(false);
-						new Menu();
+						new MenuUtama();
 					}
 				});
 		}
