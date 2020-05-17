@@ -9,17 +9,6 @@ import java.security.NoSuchAlgorithmException;
 public class DataUser {
 		int idRole;
 		String nama, email, sandi, namaRole;
-		public DataUser(String vnama, String vemail, String vsandi, int vidRole, String vnamaRole){
-				nama 			= vnama;
-				email 		= vemail;
-				sandi 		= vsandi;
-				idRole 		= vidRole;
-				namaRole	= vnamaRole;
-		}
-
-		public DataUser() {
-
-		}
 
 		public int getIdRole() {
 				return idRole;
@@ -53,18 +42,18 @@ public class DataUser {
 		public static String getMd5(String input)
 		{
 			try {
-					MessageDigest md = MessageDigest.getInstance("MD5");
-					byte[] messageDigest = md.digest(input.getBytes());
-					BigInteger no = new BigInteger(1, messageDigest);
-					String hashtext = no.toString(16);
-					while (hashtext.length() < 32) {
-							hashtext = "0" + hashtext;
-					}
-					return hashtext;
+				MessageDigest md = MessageDigest.getInstance("MD5");
+				byte[] messageDigest = md.digest(input.getBytes());
+				BigInteger no = new BigInteger(1, messageDigest);
+				String hashtext = no.toString(16);
+				while (hashtext.length() < 32) {
+						hashtext = "0" + hashtext;
+				}
+				return hashtext;
 			}
 			catch (NoSuchAlgorithmException e) {
-					JOptionPane.showMessageDialog(null, "Data Gagal Ditampilkan" + e);
-					throw new RuntimeException(e);
+				JOptionPane.showMessageDialog(null, "Data Gagal Ditampilkan" + e);
+				throw new RuntimeException(e);
 			}
 		}
 		public static boolean validasiEmail(String email) {
