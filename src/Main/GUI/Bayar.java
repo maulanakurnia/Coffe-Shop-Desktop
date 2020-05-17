@@ -114,7 +114,7 @@ public class Bayar {
             DataDompet.kurangSaldo(DataProduk.getTotal());
             String bayar  = "INSERT INTO detail_pesanan VALUES(default,'" + UserSession.getIdPemesanan() + "','" + cKursi.getSelectedItem() + "','" + time.format(timestamp) +"','" + DataProduk.getTotal() + "','TELAH DIBAYAR')";
             String saldo  = "UPDATE dompet set jumlah = '"+ DataDompet.getSaldo() +"' WHERE id_user='" + UserSession.getId_user() + "'";
-            String Rsaldo = "INSERT INTO riwayat_saldo VALUES(default,'"+ DataDompet.getIdDompet() +"','"+ DataDompet.getSaldo() +"','PEMBAYARAN')";
+            String Rsaldo = "INSERT INTO riwayat_saldo VALUES(default,'"+ DataDompet.getIdDompet() +"','"+ DataDompet.getSaldo() +"','"+ time.format(timestamp) +"','PEMBELIAN')";
             int disimpan = statement.executeUpdate(bayar);
             int diUpdate = statement.executeUpdate(saldo);
             int riwayatSaldo  = statement.executeUpdate(Rsaldo);

@@ -65,7 +65,7 @@ public class MenuUtama extends JFrame {
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							window.setVisible(false);
-//							new MenuAdmin();
+							new MenuAdmin();
 						}
 					});
 				}

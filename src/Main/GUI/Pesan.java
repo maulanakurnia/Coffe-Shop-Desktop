@@ -182,10 +182,9 @@ public class Pesan extends JFrame{
 
 	private void loadKopi() {
 		cKopi.removeAllItems();
-
 		List<DataProduk> produks = getAllProduk();
-		for (DataProduk mhs : produks) {
-			cKopi.addItem(mhs.getNamaKopi().toString());
+		for (DataProduk data : produks) {
+			cKopi.addItem(data.getNamaKopi().toString());
 		}
 	}
 }

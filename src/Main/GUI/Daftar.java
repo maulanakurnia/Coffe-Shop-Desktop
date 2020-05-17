@@ -34,70 +34,70 @@ public class Daftar extends JFrame{
 		JCheckBox cLihat2	= new JCheckBox("Lihat");
 
 		public Daftar(){
-				initComponents();
+			initComponents();
 
-				window.setLayout(null);
-				window.setSize(520, 350);
-				window.setVisible(true);
-				window.setLocationRelativeTo(null);
-				window.setResizable(false);
+			window.setLayout(null);
+			window.setSize(520, 350);
+			window.setVisible(true);
+			window.setLocationRelativeTo(null);
+			window.setResizable(false);
 
-				bDaftar.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-								Koneksi koneksi = new Koneksi();
-								String nama 	= fNama.getText();
-								String email 	= fEmail.getText();
-								char[] getSandi = fSandi.getPassword();
-								char[] getKsandi = fKSandi.getPassword();
-								String sandi 	= String.valueOf(getSandi);
-								String sandiK 	= String.valueOf(getKsandi);
+			bDaftar.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					Koneksi koneksi = new Koneksi();
+					String nama 	= fNama.getText();
+					String email 	= fEmail.getText();
+					char[] getSandi = fSandi.getPassword();
+					char[] getKsandi = fKSandi.getPassword();
+					String sandi 	= String.valueOf(getSandi);
+					String sandiK 	= String.valueOf(getKsandi);
 
-								if(nama.isEmpty() || email.isEmpty() || sandi.isEmpty() || sandiK.isEmpty()){
-									if(nama.isEmpty()){
-										JOptionPane.showMessageDialog(null, "Nama Tidak boleh kosong!","Peringatan",JOptionPane.WARNING_MESSAGE);
-									}else if(email.isEmpty()){
-										JOptionPane.showMessageDialog(null, "Email Tidak boleh kosong!","Peringatan",JOptionPane.WARNING_MESSAGE);
-									} else if(sandi.isEmpty()){
-										JOptionPane.showMessageDialog(null, "Sandi boleh kosong!","Peringatan",JOptionPane.WARNING_MESSAGE);
-									} else {
-										JOptionPane.showMessageDialog(null, "Konfirmasi Sandi Tidak boleh kosong!","Peringatan",JOptionPane.WARNING_MESSAGE);
-									}
-								}else if(!DataUser.validasiEmail(email)){
-									JOptionPane.showMessageDialog(null, "Maaf email tidak valid!");
-									fEmail.setText("");
-								}else if(!sandi.equals(sandiK)){
-									JOptionPane.showMessageDialog(null, "Sandi tidak sama!","Peringatan",JOptionPane.WARNING_MESSAGE);
-									fSandi.setText("");
-									fKSandi.setText("");
-								} else {
-										try {
-											String MD5 = DataUser.getMd5(sandi);
-											statement = koneksi.getConnection().createStatement();
-											String sql = "INSERT INTO user VALUES(default,'" + nama + "','" + email + "','" + MD5 + "','" + 2 + "','" + time.format(timestamp) + "','" + time.format(timestamp) +"' )";
-											int disimpan = statement.executeUpdate(sql);
-											if(disimpan == 1){
-												JOptionPane.showMessageDialog(null, "Selamat anda berhasil mendaftar!","Peringatan",JOptionPane.WARNING_MESSAGE);
-													statement.close();
-													window.setVisible(false);
-													new Login();
-											}
-										} catch (SQLException sqlError) {
-												JOptionPane.showMessageDialog(rootPane, "Gagal mendaftar! error : " + sqlError);
-										} catch (ClassNotFoundException classError) {
-												JOptionPane.showMessageDialog(rootPane, "Driver tidak ditemukan !!");
-										}
+					if(nama.isEmpty() || email.isEmpty() || sandi.isEmpty() || sandiK.isEmpty()){
+						if(nama.isEmpty()){
+							JOptionPane.showMessageDialog(null, "Nama Tidak boleh kosong!","Peringatan",JOptionPane.WARNING_MESSAGE);
+						}else if(email.isEmpty()){
+							JOptionPane.showMessageDialog(null, "Email Tidak boleh kosong!","Peringatan",JOptionPane.WARNING_MESSAGE);
+						} else if(sandi.isEmpty()){
+							JOptionPane.showMessageDialog(null, "Sandi boleh kosong!","Peringatan",JOptionPane.WARNING_MESSAGE);
+						} else {
+							JOptionPane.showMessageDialog(null, "Konfirmasi Sandi Tidak boleh kosong!","Peringatan",JOptionPane.WARNING_MESSAGE);
+						}
+					}else if(!DataUser.validasiEmail(email)){
+						JOptionPane.showMessageDialog(null, "Maaf email tidak valid!");
+						fEmail.setText("");
+					}else if(!sandi.equals(sandiK)){
+						JOptionPane.showMessageDialog(null, "Sandi tidak sama!","Peringatan",JOptionPane.WARNING_MESSAGE);
+						fSandi.setText("");
+						fKSandi.setText("");
+					} else {
+							try {
+								String MD5 = DataUser.getMd5(sandi);
+								statement = koneksi.getConnection().createStatement();
+								String sql = "INSERT INTO user VALUES(default,'" + nama + "','" + email + "','" + MD5 + "','" + 2 + "','" + time.format(timestamp) + "','" + time.format(timestamp) +"' )";
+								int disimpan = statement.executeUpdate(sql);
+								if(disimpan == 1){
+									JOptionPane.showMessageDialog(null, "Selamat anda berhasil mendaftar!","Peringatan",JOptionPane.WARNING_MESSAGE);
+										statement.close();
+										window.setVisible(false);
+										new Login();
 								}
-						}
-				});
+							} catch (SQLException sqlError) {
+									JOptionPane.showMessageDialog(rootPane, "Gagal mendaftar! error : " + sqlError);
+							} catch (ClassNotFoundException classError) {
+									JOptionPane.showMessageDialog(rootPane, "Driver tidak ditemukan !!");
+							}
+					}
+				}
+			});
 
-				bKembali.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-								window.setVisible(false);
-								new Login();
-						}
-				});
+			bKembali.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+							window.setVisible(false);
+							new Login();
+					}
+			});
 			cLihat.addActionListener (ae -> {
 				JCheckBox c = (JCheckBox) ae.getSource();
 				fSandi.setEchoChar(c.isSelected() ? '\u0000' : (Character) UIManager.get("PasswordField.echoChar"));
@@ -119,51 +119,51 @@ public class Daftar extends JFrame{
 		}
 
 		public void initComponents(){
-				window.getContentPane().setBackground(new Color(28, 27, 27));
+			window.getContentPane().setBackground(new Color(28, 27, 27));
 
-				window.add(lNama);
-					lNama.setBounds(50, 15, 50, 60);
-					lNama.setForeground(new Color(255, 255, 255));
-						window.add(fNama);
-						fNama.setBounds(190, 30,270,30);
+			window.add(lNama);
+				lNama.setBounds(50, 15, 50, 60);
+				lNama.setForeground(new Color(255, 255, 255));
+					window.add(fNama);
+					fNama.setBounds(190, 30,270,30);
 
-				window.add(lEmail);
-					lEmail.setBounds(50, 65, 50, 60);
-					lEmail.setForeground(new Color(255, 255, 255));
-						window.add(fEmail);
-						fEmail.setBounds(190, 80, 270, 30);
+			window.add(lEmail);
+				lEmail.setBounds(50, 65, 50, 60);
+				lEmail.setForeground(new Color(255, 255, 255));
+					window.add(fEmail);
+					fEmail.setBounds(190, 80, 270, 30);
 
-				window.add(lSandi);
-					lSandi.setBounds(50, 115, 50, 60);
-					lSandi.setForeground(new Color(255, 255, 255));
-						window.add(fSandi);
-						fSandi.setBounds(190,130,200,30);
+			window.add(lSandi);
+				lSandi.setBounds(50, 115, 50, 60);
+				lSandi.setForeground(new Color(255, 255, 255));
+					window.add(fSandi);
+					fSandi.setBounds(190,130,200,30);
 
-				window.add(cLihat);
-					cLihat.setBounds(400,130,70,30);
-					cLihat.setBackground(new Color(28, 27, 27));
-					cLihat.setForeground(new Color(255,255,255));
+			window.add(cLihat);
+				cLihat.setBounds(400,130,70,30);
+				cLihat.setBackground(new Color(28, 27, 27));
+				cLihat.setForeground(new Color(255,255,255));
 
-				window.add(lKSandi);
-					lKSandi.setBounds(50, 165, 140, 60);
-					lKSandi.setForeground(new Color(255, 255, 255));
-						window.add(fKSandi);
-						fKSandi.setBounds(190,180,200,30);
+			window.add(lKSandi);
+				lKSandi.setBounds(50, 165, 140, 60);
+				lKSandi.setForeground(new Color(255, 255, 255));
+					window.add(fKSandi);
+					fKSandi.setBounds(190,180,200,30);
 
-				window.add(cLihat2);
-					cLihat2.setBounds(400,180,70,30);
-					cLihat2.setBackground(new Color(28, 27, 27));
-					cLihat2.setForeground(new Color(255,255,255));
+			window.add(cLihat2);
+				cLihat2.setBounds(400,180,70,30);
+				cLihat2.setBackground(new Color(28, 27, 27));
+				cLihat2.setForeground(new Color(255,255,255));
 
-				window.add(bDaftar);
-					bDaftar.setBounds(190, 230, 165, 30);
-					bDaftar.setForeground(new Color(255,255,255));
-					bDaftar.setBackground(new Color(58, 133, 86));
+			window.add(bDaftar);
+				bDaftar.setBounds(190, 230, 165, 30);
+				bDaftar.setForeground(new Color(255,255,255));
+				bDaftar.setBackground(new Color(58, 133, 86));
 
-				window.add(bKembali);
-					bKembali.setBounds(370, 230, 90,30);
-					bKembali.setForeground(new Color(255,255,255));
-					bKembali.setBackground(new Color(58, 119, 133));
+			window.add(bKembali);
+				bKembali.setBounds(370, 230, 90,30);
+				bKembali.setForeground(new Color(255,255,255));
+				bKembali.setBackground(new Color(58, 119, 133));
 
 		}
 
