@@ -1,55 +1,30 @@
 package Main.GUI;
 
-import Main.Controller.DataProduk;
 import Main.Controller.Koneksi;
 import Main.Controller.UserSession;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class DaftarPesanan {
+public class TabelPesanan {
     JFrame window 	        = new JFrame("Daftar Pesanan");
-    String[][] datas        = new String[500][4];
-    String[] kolom          = {"ID", "Nama Kopi", "Jumlah", "Harga"};
+    String[][] datas        = new String[500][3];
+    String[] kolom          = {"Nama Kopi", "Jumlah", "Harga"};
     JTable tTable           = new JTable(datas, kolom);
     JScrollPane scrollPane  = new JScrollPane(tTable);
-    JButton bKembali        = new JButton("Kembali");
-    JButton bBayar          = new JButton("Bayar");
-    JLabel lTotal            = new JLabel();
 
     ResultSet resultSet;
     Statement statement;
 
-    public DaftarPesanan(){
+    public TabelPesanan(){
         initComponents();
         loadData();
-        window.setLayout(null);
-        window.setSize(570, 620);
+        window.setSize(470, 420);
         window.setVisible(true);
         window.setLocationRelativeTo(null);
-        window.setResizable(false);
-
-        bKembali.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                window.setVisible(false);
-                new Menu();
-            }
-        });
-
-        bBayar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                window.setVisible(false);
-//                new Bayar();
-            }
-        });
-
     }
 
     private void initComponents() {
@@ -58,12 +33,6 @@ public class DaftarPesanan {
             window.add(scrollPane);
             scrollPane.setBounds(70, 70, 400, 400);
             scrollPane.setBackground(new Color(247, 252, 255));
-
-        window.add(bBayar);
-        bBayar.setBounds(170, 490, 90, 30);
-
-        window.add(bKembali);
-        bKembali.setBounds(270, 490, 90, 30);
     }
 
     private void loadData(){
@@ -76,10 +45,10 @@ public class DaftarPesanan {
 
             int row = 0;
             while (resultSet.next()){
-                datas[row][0] = resultSet.getString("id_pemesanan");
-                datas[row][1] = resultSet.getString("nama_kopi");
-                datas[row][2] = resultSet.getString("jumlah");
-                datas[row][3] = resultSet.getString("harga");
+                resultSet.getString("id_pemesanan");
+                datas[row][0] = resultSet.getString("nama_kopi");
+                datas[row][1] = resultSet.getString("jumlah");
+                datas[row][2] = resultSet.getString("harga");
                 row++;
             }
             statement.close();
