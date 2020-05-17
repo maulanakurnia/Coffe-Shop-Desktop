@@ -25,7 +25,6 @@ public class Pesan extends JFrame{
 
 		boolean pesan = false;
 
-
 		JFrame window	 = new JFrame("PESAN KOPI");
 		JLabel lKopi	 = new JLabel("Kopi");
 		JComboBox<Object> cKopi	 = new JComboBox<>();
