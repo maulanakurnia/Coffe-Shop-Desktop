@@ -37,10 +37,9 @@ public class TabelPesanan {
 
     private void loadData(){
         Koneksi koneksi = new Koneksi();
-        UserSession session = new UserSession();
         try{
             statement = koneksi.getConnection().createStatement();
-            String sql = "SELECT * FROM pemesanan a INNER JOIN produk b ON a.id_kopi = b.id_kopi WHERE a.id_pemesanan='" + session.getIdPemesanan() + "' AND a.id_user='" + session.getId_user() + "'";
+            String sql = "SELECT * FROM pemesanan a INNER JOIN produk b ON a.id_kopi = b.id_kopi WHERE a.id_pemesanan='" + UserSession.getIdPemesanan() + "' AND a.id_user='" + UserSession.getId_user() + "'";
             resultSet = statement.executeQuery(sql);
 
             int row = 0;
