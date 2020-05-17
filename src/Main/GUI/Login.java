@@ -1,5 +1,6 @@
 package Main.GUI;
 
+import Main.Controller.DataDompet;
 import Main.Controller.DataUser;
 import Main.Controller.Koneksi;
 import Main.Controller.UserSession;
@@ -15,9 +16,8 @@ import java.sql.Statement;
 public class Login extends JFrame {
 		ResultSet resultSet;
 		Statement statement;
-		String id = null;
-		int role	= 0;
-		String nama	= null;
+		String id,nama,idDompet= null;
+		int role, saldo	= 0;
 
 		JFrame window 	= new JFrame("Login");
 		JLabel lEmail		= new JLabel("Email : ");
@@ -63,7 +63,7 @@ public class Login extends JFrame {
 								try {
 									String MD5 = DataUser.getMd5(sandi);
 									statement = koneksi.getConnection().createStatement();
-									String sql = "SELECT * FROM user WHERE email='" + email + "' AND sandi='" + MD5 + "'";
+									String sql = "SELECT * FROM user a INNER JOIN dompet b ON a.id=b.id_user WHERE email='" + email + "' AND sandi='" + MD5 + "'";
 									resultSet = statement.executeQuery(sql);
 
 									if (resultSet.next()) {
@@ -73,9 +73,13 @@ public class Login extends JFrame {
 										UserSession.setNama(nama);
 										role = resultSet.getInt("role");
 										UserSession.setRole(role);
+										idDompet = resultSet.getString("id_dompet");
+										DataDompet.setIdDompet(idDompet);
+										saldo = resultSet.getInt("jumlah");
+										DataDompet.setSaldo(saldo);
 
 										window.setVisible(false);
-										new Menu();
+										new MenuUtama();
 										statement.close();
 
 									} else {
