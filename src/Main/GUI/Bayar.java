@@ -1,6 +1,7 @@
 package Main.GUI;
 
 import Main.Controller.DataProduk;
+import Main.Controller.DataDompet;
 import Main.Controller.Koneksi;
 import Main.Controller.UserSession;
 
@@ -54,7 +55,7 @@ public class Bayar {
                 bayar();
                 tabelPesanan.window.setVisible(false);
                 window.setVisible(false);
-                new Menu();
+                new MenuUtama();
             }
          });
 
@@ -63,7 +64,7 @@ public class Bayar {
             public void actionPerformed(ActionEvent e) {
                 tabelPesanan.window.setVisible(false);
                 window.setVisible(false);
-                new Menu();
+                new MenuUtama();
             }
         });
     }
@@ -110,9 +111,14 @@ public class Bayar {
     private void bayar(){
         try{
             statement = koneksi.getConnection().createStatement();
-            String sql = "INSERT INTO detail_pesanan VALUES(default,'" + UserSession.getIdPemesanan() + "','" + cKursi.getSelectedItem() + "','" + time.format(timestamp) +"','" + DataProduk.getTotal() + "','TELAH DIBAYAR')";
-            int disimpan = statement.executeUpdate(sql);
-            if(disimpan == 1){
+            DataDompet.kurangSaldo(DataProduk.getTotal());
+            String bayar  = "INSERT INTO detail_pesanan VALUES(default,'" + UserSession.getIdPemesanan() + "','" + cKursi.getSelectedItem() + "','" + time.format(timestamp) +"','" + DataProduk.getTotal() + "','TELAH DIBAYAR')";
+            String saldo  = "UPDATE dompet set jumlah = '"+ DataDompet.getSaldo() +"' WHERE id_user='" + UserSession.getId_user() + "'";
+            String Rsaldo = "INSERT INTO riwayat_saldo VALUES(default,'"+ DataDompet.getIdDompet() +"','"+ DataDompet.getSaldo() +"','PEMBAYARAN')";
+            int disimpan = statement.executeUpdate(bayar);
+            int diUpdate = statement.executeUpdate(saldo);
+            int riwayatSaldo  = statement.executeUpdate(Rsaldo);
+            if(disimpan == 1 && diUpdate == 1 && riwayatSaldo == 1){
                 JOptionPane.showMessageDialog(null, "Terimakasih telah membayar pesanan!","Peringatan",JOptionPane.WARNING_MESSAGE);
             }
             statement.close();
