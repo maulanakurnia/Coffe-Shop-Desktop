@@ -1,14 +1,15 @@
 package Main.GUI;
 
 import Main.Controller.Koneksi;
-import Main.Controller.UserSession;
 
 import javax.swing.*;
+import javax.swing.table.*;
 import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import static javax.swing.JFrame.EXIT_ON_CLOSE;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class TabelProduk {
     JFrame window 	        = new JFrame("Tabel Produk");
@@ -22,20 +23,23 @@ public class TabelProduk {
     public TabelProduk() {
         initComponents();
         loadData();
-
         window.setSize(470, 420);
         window.setVisible(true);
-//        window.setDefaultCloseOperation(EXIT_ON_CLOSE);
         window.setLocationRelativeTo(null);
-
     }
 
     private void initComponents(){
         window.getContentPane().setBackground(new Color(28, 27, 27));
+        TableColumnModel columnModel = tTable.getColumnModel();
+        columnModel.getColumn(0).setPreferredWidth(150);
+        columnModel.getColumn(1).setPreferredWidth(60);
+        columnModel.getColumn(2).setPreferredWidth(10);
+        window.add(scrollPane,BorderLayout.CENTER);
+        tTable.setEnabled(false);
+        tTable.setFont(new Font("Arial", Font.BOLD,17));
+        tTable.setRowHeight(30);
 
-        window.add(scrollPane);
         scrollPane.setBounds(70, 70, 400, 400);
-
     }
 
     private void loadData(){
@@ -44,11 +48,11 @@ public class TabelProduk {
             statement = koneksi.getConnection().createStatement();
             String sql = "SELECT * FROM produk";
             resultSet = statement.executeQuery(sql);
-
+            NumberFormat nf = NumberFormat.getInstance(new Locale("da", "DK"));
             int row = 0;
             while (resultSet.next()){
                 datas[row][0] = resultSet.getString("nama_kopi");
-                datas[row][1] = resultSet.getString("harga");
+                datas[row][1] = "Rp." + nf.format(resultSet.getInt("harga"));
                 datas[row][2] = resultSet.getString("stok");
                 row++;
             }
