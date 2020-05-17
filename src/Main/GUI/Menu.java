@@ -1,6 +1,5 @@
 package Main.GUI;
 
-import Main.Controller.DataProduk;
 import Main.Controller.DataUser;
 import Main.Controller.UserSession;
 
@@ -20,8 +19,8 @@ public class Menu extends JFrame {
 		JButton bExit 		= new JButton("X");
 		JButton bLogout 	= new JButton("Log Out");
 
-		String id	 	= UserSession.getId_user();
-		int role 		= UserSession.getRole();
+		String id	= UserSession.getId_user();
+		int role 	= UserSession.getRole();
 		String nama = UserSession.getNama();
 
 		public Menu(){
@@ -41,14 +40,15 @@ public class Menu extends JFrame {
 							new Pesan();
 						}
 				});
-//				bBayar.addActionListener(new ActionListener() {
-//						@Override
-//						public void actionPerformed(ActionEvent e) {
-//								setVisible(false);
-//								new Bayar();
-//						}
-//				});
-//
+
+				bBayar.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+								setVisible(false);
+								new Bayar();
+						}
+				});
+
 //				bDompet.addActionListener(new ActionListener() {
 //						@Override
 //						public void actionPerformed(ActionEvent e) {
@@ -56,44 +56,14 @@ public class Menu extends JFrame {
 //								new Dompet();
 //						}
 //				});
-//
+
 				bPesan.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
 								window.setVisible(false);
-								new DaftarPesanan();
+								new TabelPesanan();
 						}
 				});
-        /*bRead.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new Pesan();
-            }
-        });
-        bDompet.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    new Delete();
-                }catch (ClassNotFoundException classError){
-                    classError.printStackTrace();
-                }catch (SQLException sqlError){
-                    sqlError.printStackTrace();
-                }
-            }
-        });
-        /*bUpdate.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    new Edit();
-                } catch (ClassNotFoundException classNotFoundException) {
-                    classNotFoundException.printStackTrace();
-                } catch (SQLException exception) {
-                    exception.printStackTrace();
-                }
-            }
-        });*/
 
 				bExit.addActionListener(new ActionListener() {
 						@Override
