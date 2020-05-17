@@ -40,33 +40,39 @@ public class Bayar {
 
 
     public Bayar(){
-        TabelPesanan tabelPesanan = new TabelPesanan();
-        initComponents();
+        if(UserSession.getId_user() != null){
+            JOptionPane.showMessageDialog(null, "Silahkan login terlebih dahulu!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            window.setVisible(true);
+            new Login();
+        }else {
+            TabelPesanan tabelPesanan = new TabelPesanan();
+            initComponents();
 
-        window.setLayout(null);
-        window.setSize(420, 210);
-        window.setVisible(true);
-        window.setLocationRelativeTo(null);
-        window.setResizable(false);
+            window.setLayout(null);
+            window.setSize(420, 210);
+            window.setVisible(true);
+            window.setLocationRelativeTo(null);
+            window.setResizable(false);
 
-        bBayar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                bayar();
-                tabelPesanan.window.setVisible(false);
-                window.setVisible(false);
-                new MenuUtama();
-            }
-         });
+            bBayar.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    bayar();
+                    tabelPesanan.window.setVisible(false);
+                    window.setVisible(false);
+                    new MenuUtama();
+                }
+            });
 
-        bKembali.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tabelPesanan.window.setVisible(false);
-                window.setVisible(false);
-                new MenuUtama();
-            }
-        });
+            bKembali.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    tabelPesanan.window.setVisible(false);
+                    window.setVisible(false);
+                    new MenuUtama();
+                }
+            });
+        }
     }
 
     private void initComponents() {

@@ -36,6 +36,11 @@ public class Pesan extends JFrame{
 
 
 	public Pesan(){
+		if(UserSession.getId_user() == null){
+			JOptionPane.showMessageDialog(null, "Silahkan login terlebih dahulu!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+			window.setVisible(false);
+			new Login();
+		}else {
 			DataProduk produk = new DataProduk();
 			TabelProduk tabelProduk = new TabelProduk();
 			initComponents();
@@ -52,44 +57,46 @@ public class Pesan extends JFrame{
 
 					produk.setHarga(produks.get(cKopi.getSelectedIndex()).getHarga());
 					produk.setStok(produks.get(cKopi.getSelectedIndex()).getStok());
-					DataProduk.setTotal(produks.get(cKopi.getSelectedIndex()).getHarga()*Integer.parseInt(fjmlh.getText()));
+					DataProduk.setTotal(produks.get(cKopi.getSelectedIndex()).getHarga() * Integer.parseInt(fjmlh.getText()));
 
-					pesanKopi(produks.get(cKopi.getSelectedIndex()).getIdKopi(),fjmlh.getText());
-					if(pesan = true){
+					pesanKopi(produks.get(cKopi.getSelectedIndex()).getIdKopi(), fjmlh.getText());
+					if (pesan = true) {
 						window.setVisible(false);
 						JOptionPane.showMessageDialog(null, "Berhasil Memesan!");
-						int result = JOptionPane.showConfirmDialog (null, "Ingin Memesan Lagi?","INFO", JOptionPane.YES_NO_OPTION);
-						if(result == JOptionPane.YES_OPTION) {
+						int result = JOptionPane.showConfirmDialog(null, "Ingin Memesan Lagi?", "INFO", JOptionPane.YES_NO_OPTION);
+						if (result == JOptionPane.YES_OPTION) {
 							tabelProduk.window.setVisible(false);
 							window.setVisible(false);
 							new Pesan();
-						}else {
+						} else {
 							int result2 = JOptionPane.showConfirmDialog(null, "Ingin Membayar?", "INFO", JOptionPane.YES_NO_OPTION);
 							if (result2 == JOptionPane.YES_OPTION) {
 								tabelProduk.window.setVisible(false);
 								window.setVisible(false);
 								new Bayar();
-							}else{
+							} else {
 								tabelProduk.window.setVisible(false);
 								window.setVisible(false);
 								new MenuUtama();
 							}
-						} } else {
-							JOptionPane.showMessageDialog(null, "gagal Memesan!");
 						}
-
+					} else {
+						JOptionPane.showMessageDialog(null, "gagal Memesan!");
 					}
-				});
 
-				bKembali.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						tabelProduk.window.setVisible(false);
-						window.setVisible(false);
-						new MenuUtama();
-					}
-				});
+				}
+			});
+
+			bKembali.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					tabelProduk.window.setVisible(false);
+					window.setVisible(false);
+					new MenuUtama();
+				}
+			});
 		}
+	}
 
 	private void initComponents() {
 		window.getContentPane().setBackground(new Color(28, 27, 27));

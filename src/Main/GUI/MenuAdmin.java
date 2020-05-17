@@ -1,15 +1,11 @@
 package Main.GUI;
 
-import Main.Controller.DataDompet;
-import Main.Controller.DataUser;
 import Main.Controller.UserSession;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.NumberFormat;
-import java.util.Locale;
 
 public class MenuAdmin {
     JFrame window 		= new JFrame("MENU ADMIN");
@@ -17,41 +13,49 @@ public class MenuAdmin {
     JButton bKproduk 	= new JButton("Kelola Produk");
     JButton bKembali 	= new JButton("Kembali");
 
-    NumberFormat nf = NumberFormat.getInstance(new Locale("da", "DK"));
-
     public MenuAdmin(){
-        initComponents();
+        if(UserSession.getId_user() == null){
+            JOptionPane.showMessageDialog(null, "Silahkan login terlebih dahulu!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            window.setVisible(false);
+            new Login();
+        }else if(UserSession.getRole() != 1) {
+            JOptionPane.showMessageDialog(null, "Akses tidak diberikan!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            window.setVisible(false);
+            new Login();
+        }else{
+            initComponents();
 
-        window.setLayout(null);
-        window.setSize(300, 300);
-        window.setVisible(true);
-        window.setLocationRelativeTo(null);
-        window.setResizable(false);
+            window.setLayout(null);
+            window.setSize(300, 300);
+            window.setVisible(true);
+            window.setLocationRelativeTo(null);
+            window.setResizable(false);
 
 
-        bKuser.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                window.setVisible(false);
-                new KelolaUser();
-            }
-        });
+            bKuser.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    window.setVisible(false);
+                    new KelolaUser();
+                }
+            });
 
-        bKproduk.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                window.setVisible(true);
-                new KelolaProduk();
-            }
-        });
+            bKproduk.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    window.setVisible(true);
+                    new KelolaProduk();
+                }
+            });
 
-        bKembali.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                window.setVisible(false);
-                new MenuUtama();
-            }
-        });
+            bKembali.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    window.setVisible(false);
+                    new MenuUtama();
+                }
+            });
+        }
     }
 
     public void initComponents(){

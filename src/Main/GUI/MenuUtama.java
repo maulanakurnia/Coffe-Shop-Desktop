@@ -22,12 +22,14 @@ public class MenuUtama extends JFrame {
 		JButton bAdmin 		= new JButton("Menu Admin");
 		JButton bLogout 	= new JButton("Log Out");
 
-		String id	= UserSession.getId_user();
-		int role 	= UserSession.getRole();
-		String nama = UserSession.getNama();
 		NumberFormat nf = NumberFormat.getInstance(new Locale("da", "DK"));
 
 		public MenuUtama(){
+			if(UserSession.getId_user() == null){
+				JOptionPane.showMessageDialog(null, "Silahkan login terlebih dahulu!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+				window.setVisible(false);
+				new Login();
+			}else {
 				initComponents();
 
 				window.setLayout(null);
@@ -60,7 +62,7 @@ public class MenuUtama extends JFrame {
 						new MenuDompet();
 					}
 				});
-				if(UserSession.getRole() == 1){
+				if (UserSession.getRole() == 1) {
 					bAdmin.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
@@ -79,12 +81,13 @@ public class MenuUtama extends JFrame {
 						new Login();
 					}
 				});
+			}
 		}
 
 		public void initComponents(){
 			window.getContentPane().setBackground(new Color(28, 27, 27));
 			window.add(halo);
-				halo.setText("Halo, "+nama);
+				halo.setText("Halo, "+UserSession.getNama());
 				halo.setFont(new Font("Arial", Font.BOLD,20));
 				halo.setForeground(new Color(255,255,255));
 				halo.setBounds(150,30,220,30);

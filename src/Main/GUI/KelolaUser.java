@@ -1,6 +1,5 @@
 package Main.GUI;
 
-import Main.Controller.DataDompet;
 import Main.Controller.DataUser;
 import Main.Controller.Koneksi;
 import Main.Controller.UserSession;
@@ -16,11 +15,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class KelolaUser {
     private static final SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -56,139 +53,148 @@ public class KelolaUser {
     JButton bHapus   	= new JButton("Hapus");
     JButton bKembali 	= new JButton("Kembali");
 
-    NumberFormat nf = NumberFormat.getInstance(new Locale("da", "DK"));
 
     public KelolaUser(){
-        initComponents();
-        loadData();
-        window.setLayout(null);
-        window.setSize(700,700);
-        window.setVisible(true);
-        window.setLocationRelativeTo(null);
-        window.setResizable(false);
+        if(UserSession.getId_user() == null){
+            JOptionPane.showMessageDialog(null, "Silahkan login terlebih dahulu!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            window.setVisible(false);
+            new Login();
+        }else if(UserSession.getRole() != 1){
+            JOptionPane.showMessageDialog(null, "Akses tidak diberikan!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            window.setVisible(false);
+            new Login();
+        }else {
+            initComponents();
+            loadData();
+            window.setLayout(null);
+            window.setSize(700, 700);
+            window.setVisible(true);
+            window.setLocationRelativeTo(null);
+            window.setResizable(false);
 
-        tTable.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                try {
-                    int baris = tTable.rowAtPoint(e.getPoint());
-                    String id = tTable.getValueAt(baris, 0).toString();
-                    fId.setText(id);
-                    String nama = tTable.getValueAt(baris, 1).toString();
-                    fNama.setText(nama);
-                    String email = tTable.getValueAt(baris, 2).toString();
-                    fEmail.setText(email);
-                    String sandi = tTable.getValueAt(baris,3).toString();
-                    role.setSandi(sandi);
-                    String role = tTable.getValueAt(baris, 4).toString();
-                    cRole.setSelectedItem(role);
+            tTable.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    try {
+                        int baris = tTable.rowAtPoint(e.getPoint());
+                        String id = tTable.getValueAt(baris, 0).toString();
+                        fId.setText(id);
+                        String nama = tTable.getValueAt(baris, 1).toString();
+                        fNama.setText(nama);
+                        String email = tTable.getValueAt(baris, 2).toString();
+                        fEmail.setText(email);
+                        String sandi = tTable.getValueAt(baris, 3).toString();
+                        role.setSandi(sandi);
+                        String role = tTable.getValueAt(baris, 4).toString();
+                        cRole.setSelectedItem(role);
 
-                } catch (Exception ea) {
-                    JOptionPane.showMessageDialog(null, "Mohon Maaf Data " + ea.getMessage());
+                    } catch (Exception ea) {
+                        JOptionPane.showMessageDialog(null, "Mohon Maaf Data " + ea.getMessage());
+                    }
                 }
-            }
 
-            @Override
-            public void mousePressed(MouseEvent e) {
+                @Override
+                public void mousePressed(MouseEvent e) {
 
-            }
+                }
 
-            @Override
-            public void mouseReleased(MouseEvent e) {
+                @Override
+                public void mouseReleased(MouseEvent e) {
 
-            }
+                }
 
-            @Override
-            public void mouseEntered(MouseEvent e) {
+                @Override
+                public void mouseEntered(MouseEvent e) {
 
-            }
+                }
 
-            @Override
-            public void mouseExited(MouseEvent e) {
+                @Override
+                public void mouseExited(MouseEvent e) {
 
-            }
-        });
+                }
+            });
 
-        bTambah.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    String MD5 = DataUser.getMd5(fSandi.getText());
-                    statement = koneksi.getConnection().createStatement();
-                    String sql = "INSERT INTO user VALUES(default,'" + fNama.getText() + "','" + fEmail.getText() + "','" + MD5 + "','" + roles.get(cRole.getSelectedIndex()).getIdRole() + "','" + time.format(timestamp) + "','" + time.format(timestamp) +"' )";
-                    int disimpan = statement.executeUpdate(sql);
-                    if(disimpan == 1){
-                        JOptionPane.showMessageDialog(null, "Selamat anda berhasil mendaftar!","Peringatan",JOptionPane.WARNING_MESSAGE);
+            bTambah.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        String MD5 = DataUser.getMd5(fSandi.getText());
+                        statement = koneksi.getConnection().createStatement();
+                        String sql = "INSERT INTO user VALUES(default,'" + fNama.getText() + "','" + fEmail.getText() + "','" + MD5 + "','" + roles.get(cRole.getSelectedIndex()).getIdRole() + "','" + time.format(timestamp) + "','" + time.format(timestamp) + "' )";
+                        int disimpan = statement.executeUpdate(sql);
+                        if (disimpan == 1) {
+                            JOptionPane.showMessageDialog(null, "Selamat anda berhasil mendaftar!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+                            statement.close();
+                            window.setVisible(false);
+                            new KelolaUser();
+                        }
+                    } catch (SQLException sqlError) {
+                        JOptionPane.showMessageDialog(null, "Gagal mendaftar! error : " + sqlError);
+                    } catch (ClassNotFoundException classError) {
+                        JOptionPane.showMessageDialog(null, "Driver tidak ditemukan !!");
+                    }
+                }
+            });
+
+            bUpdate.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        String MD5 = DataUser.getMd5(fSandi.getText());
+                        statement = koneksi.getConnection().createStatement();
+                        if (fSandi.getText().isEmpty()) {
+                            String sql = "UPDATE user set nama='" + fNama.getText() + "',email='" + fEmail.getText() + "',role='" + roles.get(cRole.getSelectedIndex()).getIdRole() + "',diubah='" + time.format(timestamp) + "' WHERE id='" + fId.getText() + "'";
+                            int disimpan = statement.executeUpdate(sql);
+                            if (disimpan == 1) {
+                                JOptionPane.showMessageDialog(null, "Berhasil Diubah!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+                                statement.close();
+                                window.setVisible(false);
+                                new KelolaUser();
+                            }
+                        } else {
+                            String sql = "UPDATE user set nama='" + fNama.getText() + "',email='" + fEmail.getText() + "',sandi='" + MD5 + "',role='" + roles.get(cRole.getSelectedIndex()).getIdRole() + "',diubah='" + time.format(timestamp) + "' WHERE id='" + fId.getText() + "'";
+                            int disimpan = statement.executeUpdate(sql);
+                            if (disimpan == 1) {
+                                JOptionPane.showMessageDialog(null, "Berhasil Diubah!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+                                statement.close();
+                                window.setVisible(false);
+                                new KelolaUser();
+                            }
+                        }
+
+                    } catch (SQLException sqlError) {
+                        JOptionPane.showMessageDialog(null, "Gagal mendaftar! error : " + sqlError);
+                    } catch (ClassNotFoundException classError) {
+                        JOptionPane.showMessageDialog(null, "Driver tidak ditemukan !!");
+                    }
+                }
+            });
+
+            bHapus.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent ae) {
+                    try {
+                        statement = koneksi.getConnection().createStatement();
+                        String sql = "DELETE FROM user WHERE id='" + fId.getText() + "'";
+                        statement.execute(sql);
+                        JOptionPane.showMessageDialog(null, "Berhasil Hapus Data!", "Peringatan", JOptionPane.WARNING_MESSAGE);
                         statement.close();
                         window.setVisible(false);
                         new KelolaUser();
+                    } catch (HeadlessException | SQLException | ClassNotFoundException e) {
+                        JOptionPane.showMessageDialog(null, e.getMessage());
                     }
-                } catch (SQLException sqlError) {
-                    JOptionPane.showMessageDialog(null, "Gagal mendaftar! error : " + sqlError);
-                } catch (ClassNotFoundException classError) {
-                    JOptionPane.showMessageDialog(null, "Driver tidak ditemukan !!");
                 }
-            }
-        });
+            });
 
-        bUpdate.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    String MD5 = DataUser.getMd5(fSandi.getText());
-                    statement = koneksi.getConnection().createStatement();
-                    if(fSandi.getText().isEmpty()){
-                        String sql = "UPDATE user set nama='"+ fNama.getText() +"',email='"+ fEmail.getText() +"',role='"+ roles.get(cRole.getSelectedIndex()).getIdRole() +"',diubah='"+ time.format(timestamp) +"' WHERE id='"+fId.getText()+"'";
-                        int disimpan = statement.executeUpdate(sql);
-                        if(disimpan == 1){
-                            JOptionPane.showMessageDialog(null, "Berhasil Diubah!","Peringatan",JOptionPane.WARNING_MESSAGE);
-                            statement.close();
-                            window.setVisible(false);
-                            new KelolaUser();
-                        }
-                    }else {
-                        String sql = "UPDATE user set nama='" + fNama.getText() + "',email='" + fEmail.getText() + "',sandi='" + MD5 + "',role='" + roles.get(cRole.getSelectedIndex()).getIdRole() + "',diubah='" + time.format(timestamp) + "' WHERE id='"+fId.getText()+"'";
-                        int disimpan = statement.executeUpdate(sql);
-                        if(disimpan == 1){
-                            JOptionPane.showMessageDialog(null, "Berhasil Diubah!","Peringatan",JOptionPane.WARNING_MESSAGE);
-                            statement.close();
-                            window.setVisible(false);
-                            new KelolaUser();
-                        }
-                    }
-
-                } catch (SQLException sqlError) {
-                    JOptionPane.showMessageDialog(null, "Gagal mendaftar! error : " + sqlError);
-                } catch (ClassNotFoundException classError) {
-                    JOptionPane.showMessageDialog(null, "Driver tidak ditemukan !!");
-                }
-            }
-        });
-
-        bHapus.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                try {
-                    statement = koneksi.getConnection().createStatement();
-                    String sql = "DELETE FROM user WHERE id='" + fId.getText() +"'";
-                    statement.execute(sql);
-                    JOptionPane.showMessageDialog(null, "Berhasil Hapus Data!", "Peringatan", JOptionPane.WARNING_MESSAGE);
-                    statement.close();
+            bKembali.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
                     window.setVisible(false);
-                    new KelolaUser();
-                } catch (HeadlessException | SQLException | ClassNotFoundException e) {
-                    JOptionPane.showMessageDialog(null, e.getMessage());
+                    new MenuAdmin();
                 }
-        }});
-
-        bKembali.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                window.setVisible(false);
-                new MenuAdmin();
-            }
-        });
-
+            });
+        }
     }
 
     public void initComponents(){

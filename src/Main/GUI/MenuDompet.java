@@ -19,44 +19,47 @@ public class MenuDompet {
     JButton bRiwayat 	= new JButton("Riwayat Saldo");
     JButton bKembali 	= new JButton("Kembali");
 
-    String id	= UserSession.getId_user();
-    int role 	= UserSession.getRole();
-    String nama = UserSession.getNama();
     NumberFormat nf = NumberFormat.getInstance(new Locale("da", "DK"));
 
     public MenuDompet(){
-        initComponents();
+        if(UserSession.getId_user() == null){
+            JOptionPane.showMessageDialog(null, "Silahkan login terlebih dahulu!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            window.setVisible(false);
+            new Login();
+        }else {
+            initComponents();
 
-        window.setLayout(null);
-        window.setSize(300, 300);
-        window.setVisible(true);
-        window.setLocationRelativeTo(null);
-        window.setResizable(false);
+            window.setLayout(null);
+            window.setSize(300, 300);
+            window.setVisible(true);
+            window.setLocationRelativeTo(null);
+            window.setResizable(false);
 
 
-        bIsiSaldo.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                window.setVisible(false);
-                new Pesan();
-            }
-        });
+            bIsiSaldo.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    window.setVisible(false);
+                    new Pesan();
+                }
+            });
 
-        bRiwayat.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                window.setVisible(true);
-                new TabelRiwayatSaldo();
-            }
-        });
+            bRiwayat.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    window.setVisible(true);
+                    new TabelRiwayatSaldo();
+                }
+            });
 
-        bKembali.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                window.setVisible(false);
-                new MenuUtama();
-            }
-        });
+            bKembali.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    window.setVisible(false);
+                    new MenuUtama();
+                }
+            });
+        }
     }
 
     public void initComponents(){
