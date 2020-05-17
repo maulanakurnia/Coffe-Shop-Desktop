@@ -52,7 +52,7 @@ public class Pesan extends JFrame{
 
 					produk.setHarga(produks.get(cKopi.getSelectedIndex()).getHarga());
 					produk.setStok(produks.get(cKopi.getSelectedIndex()).getStok());
-					produk.setTotal(produks.get(cKopi.getSelectedIndex()).getHarga(), Integer.parseInt(fjmlh.getText()));
+					DataProduk.setTotal(produks.get(cKopi.getSelectedIndex()).getHarga()*Integer.parseInt(fjmlh.getText()));
 
 					pesanKopi(produks.get(cKopi.getSelectedIndex()).getIdKopi(),fjmlh.getText());
 					if(pesan = true){
@@ -68,7 +68,7 @@ public class Pesan extends JFrame{
 							if (result2 == JOptionPane.YES_OPTION) {
 								tabelProduk.window.setVisible(false);
 								window.setVisible(false);
-								new Daftar();
+								new Bayar();
 							}else{
 								tabelProduk.window.setVisible(false);
 								window.setVisible(false);
@@ -168,6 +168,8 @@ public class Pesan extends JFrame{
 				produk = new DataProduk();
 				produk.setIdKopi(resultSet.getString("id_kopi"));
 				produk.setNamaKopi(resultSet.getString("nama_kopi"));
+				produk.setHarga(resultSet.getInt("harga"));
+				produk.setStok(resultSet.getInt("stok"));
 				produks.add(produk);
 			}
 		} catch (SQLException sqlError) {
