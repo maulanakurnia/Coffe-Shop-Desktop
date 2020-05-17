@@ -3,6 +3,6 @@ import Main.GUI.*;
 
 public class Main {
     public static void main(String[] args) {
-        new KelolaProduk();
+        new Login();
     }
 }
