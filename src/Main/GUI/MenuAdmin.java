@@ -43,7 +43,7 @@ public class MenuAdmin {
             bKproduk.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    window.setVisible(true);
+                    window.setVisible(false);
                     new KelolaProduk();
                 }
             });
