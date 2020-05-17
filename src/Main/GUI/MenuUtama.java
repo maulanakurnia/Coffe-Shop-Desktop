@@ -75,6 +75,7 @@ public class MenuUtama extends JFrame {
 				bLogout.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
+						JOptionPane.showMessageDialog(null, "Berhasil keluar!", "Peringatan", JOptionPane.WARNING_MESSAGE);
 						UserSession.setIdPemesanan(null);
 						UserSession.setId_user(null);
 						window.setVisible(false);
