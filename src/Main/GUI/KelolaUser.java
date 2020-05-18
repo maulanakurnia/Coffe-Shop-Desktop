@@ -27,20 +27,20 @@ public class KelolaUser {
 
     // Tabel
     String[][] datas        = new String[500][7];
-    String[] kolom          = {"ID User","Nama User", "Email", "Sandi", "Role","Dibuat","Diubah"};
+    String[] kolom          = {"ID","Nama User", "Email", "Sandi", "Role","Dibuat","Diubah"};
     JTable tTable           = new JTable(datas, kolom);
     JScrollPane scrollPane  = new JScrollPane(tTable);
     // Label
-    JLabel lId              = new JLabel("ID User");
     JLabel lNama            = new JLabel("Nama");
     JLabel lEmail           = new JLabel("Email");
     JLabel lSandi           = new JLabel("Sandi");
     JLabel lRole            = new JLabel("Role");
+    JCheckBox cLihat        = new JCheckBox("Lihat");
     // Text Field
     JTextField fId          = new JTextField();
     JTextField fNama        = new JTextField();
     JTextField fEmail       = new JTextField();
-    JTextField fSandi       = new JTextField();
+    JPasswordField fSandi   = new JPasswordField();
     JComboBox<String> cRole = new JComboBox<>();
     // Button
     JButton bTambah     = new JButton("Tambah");
@@ -72,6 +72,53 @@ public class KelolaUser {
 
     private void initComponents(){
         window.getContentPane().setBackground(new Color(28, 27, 27));
+        window.add(lNama);
+        lNama.setBounds(20, 20, 150, 20);
+        lNama.setForeground(new Color(255, 255, 255));
+            window.add(fNama);
+            fNama.setBounds(130, 20, 170, 25);
+
+        window.add(lEmail);
+        lEmail.setBounds(20, 63, 150, 20);
+        lEmail.setForeground(new Color(255, 255, 255));
+            window.add(fEmail);
+            fEmail.setBounds(130, 60, 170, 25);
+
+        window.add(lSandi);
+        lSandi.setBounds(340, 23, 150, 20);
+        lSandi.setForeground(new Color(255, 255, 255));
+            window.add(fSandi);
+            fSandi.setBounds(450, 20, 140, 25);
+                window.add(cLihat);
+                cLihat.setBounds(595,20,55,25);
+                cLihat.setBackground(new Color(28, 27, 27));
+                cLihat.setForeground(new Color(255,255,255));
+
+        window.add(lRole);
+        lRole.setBounds(340, 63, 150, 20);
+        lRole.setForeground(new Color(255, 255, 255));
+            window.add(cRole);
+            cRole.setBounds(450, 60, 200, 25);
+
+        window.add(bTambah);
+            bTambah.setBounds(20, 480, 140, 30);
+            bTambah.setForeground(new Color(255, 255, 255));
+            bTambah.setBackground(new Color(58, 133, 86));
+
+        window.add(bUpdate);
+            bUpdate.setBounds(185, 480, 140, 30);
+            bUpdate.setForeground(new Color(255,255,255));
+            bUpdate.setBackground(new Color(82, 77, 64));
+
+        window.add(bHapus);
+            bHapus.setBounds(345, 480, 140, 30);
+            bHapus.setForeground(new Color(255,255,255));
+            bHapus.setBackground(new Color(102, 55, 51));
+
+        window.add(bKembali);
+            bKembali.setBounds(510, 480, 140, 30);
+            bKembali.setForeground(new Color(255,255,255));
+            bKembali.setBackground(new Color(82, 77, 64));
 
         tTable.setBackground(new Color(247, 252, 255));
         TableColumnModel columnModel = tTable.getColumnModel();
@@ -83,62 +130,11 @@ public class KelolaUser {
         columnModel.getColumn(5).setPreferredWidth(70);
         columnModel.getColumn(6).setPreferredWidth(70);
         window.add(scrollPane);
-        scrollPane.setBounds(20, 270, 640, 350);
+        scrollPane.setBounds(20, 120, 630, 340);
         scrollPane.setBackground(new Color(247, 252, 255));
 
-        window.add(lId);
-        lId.setBounds(20, 70, 150, 20);
-        lId.setForeground(new Color(255, 255, 255));
-            window.add(fId);
-            fId.setBounds(170, 70, 170, 20);
-            fId.setEditable(false);
-
-        window.add(lNama);
-        lNama.setBounds(20, 100, 150, 20);
-        lNama.setForeground(new Color(255, 255, 255));
-            window.add(fNama);
-            fNama.setBounds(170, 100, 170, 20);
-
-        window.add(lEmail);
-        lEmail.setBounds(20, 130, 150, 20);
-        lEmail.setForeground(new Color(255, 255, 255));
-            window.add(fEmail);
-            fEmail.setBounds(170, 130, 170, 20);
-
-        window.add(lSandi);
-        lSandi.setBounds(20, 160, 150, 20);
-        lSandi.setForeground(new Color(255, 255, 255));
-            window.add(fSandi);
-            fSandi.setBounds(170, 160, 170, 20);
-
-        window.add(lRole);
-        lRole.setBounds(20, 190, 150, 20);
-        lRole.setForeground(new Color(255, 255, 255));
-            window.add(cRole);
-            cRole.setBounds(170, 190, 170, 20);
-
-        window.add(bTambah);
-        bTambah.setBounds(20, 230, 120, 30);
-        bTambah.setForeground(new Color(255, 255, 255));
-        bTambah.setBackground(new Color(58, 133, 86));
-
-        window.add(bUpdate);
-        bUpdate.setBounds(190, 230, 120, 30);
-        bUpdate.setForeground(new Color(255,255,255));
-        bUpdate.setBackground(new Color(82, 77, 64));
-
-        window.add(bHapus);
-        bHapus.setBounds(360, 230, 120, 30);
-        bHapus.setForeground(new Color(255,255,255));
-        bHapus.setBackground(new Color(102, 55, 51));
-
-        window.add(bKembali);
-        bKembali.setBounds(540, 230, 120, 30);
-        bKembali.setForeground(new Color(255,255,255));
-        bKembali.setBackground(new Color(82, 77, 64));
-
         window.setLayout(null);
-        window.setSize(700, 700);
+        window.setSize(690, 570);
         window.setVisible(true);
         window.setLocationRelativeTo(null);
         window.setResizable(false);
@@ -257,6 +253,16 @@ public class KelolaUser {
             public void actionPerformed(ActionEvent e) {
                 window.setVisible(false);
                 new MenuAdmin();
+            }
+        });
+
+        cLihat.addActionListener(ae -> {
+            JCheckBox c = (JCheckBox) ae.getSource();
+            fSandi.setEchoChar(c.isSelected() ? '\u0000' : (Character) UIManager.get("PasswordField.echoChar"));
+            if (c.isSelected()) {
+                cLihat.setText("Tutup");
+            } else {
+                cLihat.setText("Lihat");
             }
         });
     }

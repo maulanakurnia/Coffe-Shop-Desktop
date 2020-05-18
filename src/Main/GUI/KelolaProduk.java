@@ -43,23 +43,68 @@ public class KelolaProduk {
     JButton bKembali 	= new JButton("Kembali");
 
     public KelolaProduk(){
-        if(UserSession.getId_user() == null){
-            JOptionPane.showMessageDialog(null, "Silahkan login terlebih dahulu!", "Peringatan", JOptionPane.WARNING_MESSAGE);
-            window.setVisible(false);
-            new Login();
-        }else if(UserSession.getRole()!=1){
-            JOptionPane.showMessageDialog(null, "Akses tidak diberikan!", "Peringatan", JOptionPane.WARNING_MESSAGE);
-            window.setVisible(false);
-            new Login();
-        }else {
+//        if(UserSession.getId_user() == null){
+//            JOptionPane.showMessageDialog(null, "Silahkan login terlebih dahulu!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+//            window.setVisible(false);
+//            new Login();
+//        }else if(UserSession.getRole()!=1){
+//            JOptionPane.showMessageDialog(null, "Akses tidak diberikan!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+//            window.setVisible(false);
+//            new Login();
+//        }else {
             initComponents();
             loadData();
             initListeners();
-        }
+//        }
     }
 
     private void initComponents(){
         window.getContentPane().setBackground(new Color(28, 27, 27));
+
+        window.add(lId);
+            lId.setBounds(20, 20, 150, 20);
+            lId.setForeground(new Color(255, 255, 255));
+            window.add(fId);
+                fId.setBounds(130, 20, 170, 25);
+                fId.setEditable(false);
+
+        window.add(lNama);
+            lNama.setBounds(20, 63, 150, 20);
+            lNama.setForeground(new Color(255, 255, 255));
+            window.add(fNama);
+                fNama.setBounds(130, 60, 170, 25);
+
+        window.add(lHarga);
+            lHarga.setBounds(340, 23, 150, 20);
+            lHarga.setForeground(new Color(255, 255, 255));
+            window.add(fHarga);
+                fHarga.setBounds(450, 20, 200, 25);
+
+        window.add(lStok);
+            lStok.setBounds(340, 63, 150, 20);
+            lStok.setForeground(new Color(255, 255, 255));
+            window.add(fStok);
+                fStok.setBounds(450, 60, 200, 25);
+
+        window.add(bTambah);
+            bTambah.setBounds(20, 480, 140, 30);
+            bTambah.setForeground(new Color(255, 255, 255));
+            bTambah.setBackground(new Color(58, 133, 86));
+
+        window.add(bUpdate);
+            bUpdate.setBounds(185, 480, 140, 30);
+            bUpdate.setForeground(new Color(255,255,255));
+            bUpdate.setBackground(new Color(82, 77, 64));
+
+        window.add(bHapus);
+            bHapus.setBounds(345, 480, 140, 30);
+            bHapus.setForeground(new Color(255,255,255));
+            bHapus.setBackground(new Color(102, 55, 51));
+
+        window.add(bKembali);
+            bKembali.setBounds(510, 480, 140, 30);
+            bKembali.setForeground(new Color(255,255,255));
+            bKembali.setBackground(new Color(82, 77, 64));
 
         tTable.setBackground(new Color(247, 252, 255));
         TableColumnModel columnModel = tTable.getColumnModel();
@@ -68,56 +113,11 @@ public class KelolaProduk {
         columnModel.getColumn(2).setPreferredWidth(80);
         columnModel.getColumn(3).setPreferredWidth(30);
         window.add(pane);
-        pane.setBounds(20, 270, 640, 350);
+        pane.setBounds(20, 120, 630, 340);
         pane.setBackground(new Color(247, 252, 255));
 
-        window.add(lId);
-            lId.setBounds(20, 70, 150, 20);
-            lId.setForeground(new Color(255, 255, 255));
-            window.add(fId);
-                fId.setBounds(170, 70, 170, 20);
-                fId.setEditable(false);
-
-        window.add(lNama);
-            lNama.setBounds(20, 100, 150, 20);
-            lNama.setForeground(new Color(255, 255, 255));
-            window.add(fNama);
-                fNama.setBounds(170, 100, 170, 20);
-
-        window.add(lHarga);
-            lHarga.setBounds(20, 130, 150, 20);
-            lHarga.setForeground(new Color(255, 255, 255));
-            window.add(fHarga);
-                fHarga.setBounds(170, 130, 170, 20);
-
-        window.add(lStok);
-            lStok.setBounds(20, 160, 150, 20);
-            lStok.setForeground(new Color(255, 255, 255));
-            window.add(fStok);
-                fStok.setBounds(170, 160, 170, 20);
-
-        window.add(bTambah);
-            bTambah.setBounds(20, 230, 120, 30);
-            bTambah.setForeground(new Color(255, 255, 255));
-            bTambah.setBackground(new Color(58, 133, 86));
-
-        window.add(bUpdate);
-            bUpdate.setBounds(190, 230, 120, 30);
-            bUpdate.setForeground(new Color(255,255,255));
-            bUpdate.setBackground(new Color(82, 77, 64));
-
-        window.add(bHapus);
-            bHapus.setBounds(360, 230, 120, 30);
-            bHapus.setForeground(new Color(255,255,255));
-            bHapus.setBackground(new Color(102, 55, 51));
-
-        window.add(bKembali);
-            bKembali.setBounds(540, 230, 120, 30);
-            bKembali.setForeground(new Color(255,255,255));
-            bKembali.setBackground(new Color(82, 77, 64));
-
         window.setLayout(null);
-        window.setSize(700, 700);
+        window.setSize(690, 570);
         window.setVisible(true);
         window.setLocationRelativeTo(null);
         window.setResizable(false);
