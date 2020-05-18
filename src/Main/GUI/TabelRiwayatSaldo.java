@@ -60,7 +60,7 @@ public class TabelRiwayatSaldo {
             int row = 0;
             while (resultSet.next()){
                 datas[row][0] = String.valueOf(row+1);
-                datas[row][1] = "Rp."+nf.format(resultSet.getInt("riwayat_saldo"));
+                datas[row][1] = resultSet.getString("riwayat_saldo");
                 datas[row][2] = resultSet.getString("tanggal_transaksi");
                 datas[row][3] = resultSet.getString("keterangan");
                 row++;

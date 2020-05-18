@@ -67,7 +67,7 @@ public class MenuDompet {
             @Override
             public void actionPerformed(ActionEvent e) {
                 window.setVisible(false);
-                new Pesan();
+                new IsiSaldo();
             }
         });
 
