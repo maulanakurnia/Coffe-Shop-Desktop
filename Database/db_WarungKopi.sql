@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: May 17, 2020 at 08:25 PM
--- Server version: 10.4.12-MariaDB
--- PHP Version: 7.4.5
+-- Host: localhost:3306
+-- Generation Time: May 18, 2020 at 05:11 PM
+-- Server version: 5.7.24
+-- PHP Version: 7.2.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -18,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `db_WarungKopi`
+-- Database: `db_warungkopi`
 --
 
 -- --------------------------------------------------------
@@ -30,8 +31,8 @@ SET time_zone = "+00:00";
 CREATE TABLE `detail_pesanan` (
   `id_pesanan` int(11) NOT NULL,
   `id_pemesanan` varchar(22) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `no_kursi` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tanggal_pemesanan` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `no_kursi` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tanggal_pemesanan` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `total` int(11) NOT NULL,
   `status` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -46,7 +47,15 @@ INSERT INTO `detail_pesanan` (`id_pesanan`, `id_pemesanan`, `no_kursi`, `tanggal
 (3, 'PMSN-039', '002', '2020-05-17 11:26:27', 24000, 'TELAH DIBAYAR'),
 (4, 'PMSN-040', '002', '2020-05-17 11:28:11', 24000, 'TELAH DIBAYAR'),
 (5, 'PMSN-041', '002', '2020-05-17 14:04:45', 54000, 'TELAH DIBAYAR'),
-(6, 'PMSN-042', '002', '2020-05-17 14:07:43', 54000, 'TELAH DIBAYAR');
+(6, 'PMSN-042', '002', '2020-05-17 14:07:43', 54000, 'TELAH DIBAYAR'),
+(7, 'PMSN-044', '006', '2020-05-18 15:30:07', 93000, 'TELAH DIBAYAR'),
+(8, 'PMSN-047', '003', '2020-05-18 15:39:41', 27000, 'TELAH DIBAYAR'),
+(9, 'PMSN-048', '002', '2020-05-18 15:47:59', 36000, 'TELAH DIBAYAR'),
+(10, 'PMSN-048', '005', '2020-05-18 15:49:15', 12000, 'TELAH DIBAYAR'),
+(11, 'PMSN-048', '004', '2020-05-18 15:50:12', 12000, 'TELAH DIBAYAR'),
+(12, 'PMSN-048', '006', '2020-05-18 17:08:45', 54000, 'TELAH DIBAYAR'),
+(13, 'PMSN-048', '003', '2020-05-18 17:10:09', 54000, 'TELAH DIBAYAR'),
+(14, 'PMSN-048', '005', '2020-05-18 17:10:22', 66000, 'TELAH DIBAYAR');
 
 -- --------------------------------------------------------
 
@@ -65,8 +74,8 @@ CREATE TABLE `dompet` (
 --
 
 INSERT INTO `dompet` (`id_dompet`, `id_user`, `jumlah`) VALUES
-(1, 1, 368000),
-(2, 2, 400000);
+(1, 1, 644000),
+(2, 2, 313000);
 
 -- --------------------------------------------------------
 
@@ -160,7 +169,14 @@ INSERT INTO `pemesanan` (`id_pemesanan`, `id_user`, `id_kopi`, `jumlah`) VALUES
 ('PMSN-041', 1, 2, 3),
 ('PMSN-041', 1, 3, 4),
 ('PMSN-042', 1, 1, 3),
-('PMSN-042', 1, 3, 4);
+('PMSN-042', 1, 3, 4),
+('PMSN-043', 1, 2, 3),
+('PMSN-044', 1, 2, 3),
+('PMSN-044', 1, 3, 5),
+('PMSN-044', 1, 4, 2),
+('PMSN-045', 2, 4, 1000),
+('PMSN-046', 1, 3, 3),
+('PMSN-047', 2, 3, 3);
 
 -- --------------------------------------------------------
 
@@ -194,8 +210,8 @@ INSERT INTO `produk` (`id_kopi`, `nama_kopi`, `harga`, `stok`) VALUES
 CREATE TABLE `riwayat_saldo` (
   `idRiwayatSaldo` int(11) NOT NULL,
   `id_dompet` int(11) NOT NULL,
-  `riwayat_saldo` int(11) NOT NULL,
-  `tanggal_transaksi` timestamp NOT NULL DEFAULT current_timestamp(),
+  `riwayat_saldo` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tanggal_transaksi` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `keterangan` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -204,8 +220,17 @@ CREATE TABLE `riwayat_saldo` (
 --
 
 INSERT INTO `riwayat_saldo` (`idRiwayatSaldo`, `id_dompet`, `riwayat_saldo`, `tanggal_transaksi`, `keterangan`) VALUES
-(1, 1, 476000, '2020-05-17 11:31:42', 'PEMBAYARAN'),
-(2, 1, 368000, '2020-05-17 14:07:43', 'PEMBELIAN');
+(1, 1, '476000', '2020-05-17 11:31:42', 'PEMBAYARAN'),
+(2, 1, '368000', '2020-05-17 14:07:43', 'PEMBELIAN'),
+(3, 2, '- 27000', '2020-05-18 15:39:41', 'PEMBELIAN'),
+(4, 2, '- 36000', '2020-05-18 15:47:59', 'PEMBELIAN'),
+(5, 2, '- 12000', '2020-05-18 15:49:15', 'PEMBELIAN'),
+(6, 2, '- 12000', '2020-05-18 15:50:12', 'PEMBELIAN'),
+(7, 1, '+ 718000', '2020-05-18 17:00:42', 'PENGISIAN SALDO'),
+(8, 1, '+ 100000', '2020-05-18 17:01:35', 'PENGISIAN SALDO'),
+(9, 1, '- 54000', '2020-05-18 17:08:45', 'PEMBELIAN'),
+(10, 1, '- 54000', '2020-05-18 17:10:09', 'PEMBELIAN'),
+(11, 1, '- 66000', '2020-05-18 17:10:22', 'PEMBELIAN');
 
 -- --------------------------------------------------------
 
@@ -238,8 +263,8 @@ CREATE TABLE `user` (
   `email` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `sandi` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
   `role` int(11) NOT NULL,
-  `dibuat` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `diubah` timestamp NOT NULL DEFAULT current_timestamp()
+  `dibuat` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `diubah` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -310,7 +335,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `detail_pesanan`
 --
 ALTER TABLE `detail_pesanan`
-  MODIFY `id_pesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_pesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `dompet`
@@ -328,13 +353,13 @@ ALTER TABLE `produk`
 -- AUTO_INCREMENT for table `riwayat_saldo`
 --
 ALTER TABLE `riwayat_saldo`
-  MODIFY `idRiwayatSaldo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idRiwayatSaldo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables
