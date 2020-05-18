@@ -43,19 +43,19 @@ public class KelolaProduk {
     JButton bKembali 	= new JButton("Kembali");
 
     public KelolaProduk(){
-//        if(UserSession.getId_user() == null){
-//            JOptionPane.showMessageDialog(null, "Silahkan login terlebih dahulu!", "Peringatan", JOptionPane.WARNING_MESSAGE);
-//            window.setVisible(false);
-//            new Login();
-//        }else if(UserSession.getRole()!=1){
-//            JOptionPane.showMessageDialog(null, "Akses tidak diberikan!", "Peringatan", JOptionPane.WARNING_MESSAGE);
-//            window.setVisible(false);
-//            new Login();
-//        }else {
+        if(UserSession.getId_user() == null){
+            JOptionPane.showMessageDialog(null, "Silahkan login terlebih dahulu!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            window.setVisible(false);
+            new Login();
+        }else if(UserSession.getRole()!=1){
+            JOptionPane.showMessageDialog(null, "Akses tidak diberikan!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            window.setVisible(false);
+            new Login();
+        }else {
             initComponents();
             loadData();
             initListeners();
-//        }
+        }
     }
 
     private void initComponents(){
@@ -165,7 +165,7 @@ public class KelolaProduk {
                     String sql = "INSERT INTO user VALUES(default,'" + fNama.getText() + "','" + fHarga.getText() + "','" + fStok.getText() + "'";
                     int disimpan = statement.executeUpdate(sql);
                     if (disimpan == 1) {
-                        JOptionPane.showMessageDialog(null, "Berhasil tambah data!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Berhasil tambah data!", "Informasi", JOptionPane.WARNING_MESSAGE);
                         statement.close();
                         window.setVisible(false);
                         new KelolaProduk();
@@ -186,7 +186,7 @@ public class KelolaProduk {
                     String sql = "UPDATE user set nama_kopi='" + fNama.getText() + "',harga='" + fHarga.getText() + "',stok='" + fStok.getText() + "' WHERE id_kopi='" + fId.getText() + "'";
                     int disimpan = statement.executeUpdate(sql);
                     if (disimpan == 1) {
-                        JOptionPane.showMessageDialog(null, "Berhasil Diubah!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Berhasil Diubah!", "Informasi", JOptionPane.WARNING_MESSAGE);
                         statement.close();
                         window.setVisible(false);
                         new KelolaProduk();
@@ -207,7 +207,7 @@ public class KelolaProduk {
                     statement = koneksi.getConnection().createStatement();
                     String sql = "DELETE FROM user WHERE id='" + fId.getText() + "'";
                     statement.execute(sql);
-                    JOptionPane.showMessageDialog(null, "Berhasil Hapus Data!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Berhasil Hapus Data!", "Informasi", JOptionPane.WARNING_MESSAGE);
                     statement.close();
                     window.setVisible(false);
                     new KelolaProduk();
