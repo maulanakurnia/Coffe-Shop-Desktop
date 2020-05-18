@@ -124,7 +124,6 @@ public class Bayar {
 
     private void bayar(){
         try{
-            JOptionPane.showMessageDialog(null, "ID "+UserSession.getIdPemesanan(),"Informasi",JOptionPane.WARNING_MESSAGE);
             statement = koneksi.getConnection().createStatement();
             if(DataDompet.getSaldo() <= DataProduk.getTotal()){
                 JOptionPane.showMessageDialog(null, "Mohon maaf saldo anda tidak mencukupi!","Informasi",JOptionPane.WARNING_MESSAGE);
