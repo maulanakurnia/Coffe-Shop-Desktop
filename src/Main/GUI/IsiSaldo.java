@@ -35,14 +35,14 @@ public class IsiSaldo {
     NumberFormat nf = NumberFormat.getInstance(new Locale("da", "DK"));
 
     public IsiSaldo(){
-//        if(UserSession.getId_user() == null){
-//            JOptionPane.showMessageDialog(null, "Silahkan login terlebih dahulu!", "Peringatan", JOptionPane.WARNING_MESSAGE);
-//            window.setVisible(false);
-//            new Login();
-//        }else {
+        if(UserSession.getId_user() == null){
+            JOptionPane.showMessageDialog(null, "Silahkan login terlebih dahulu!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            window.setVisible(false);
+            new Login();
+        }else {
             initComponents();
             initListeners();
-//        }
+        }
     }
 
     private void initComponents(){
