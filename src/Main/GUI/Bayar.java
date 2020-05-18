@@ -45,6 +45,10 @@ public class Bayar {
             JOptionPane.showMessageDialog(null, "Silahkan login terlebih dahulu!", "Peringatan", JOptionPane.WARNING_MESSAGE);
             window.setVisible(true);
             new Login();
+        }else if(UserSession.getIdPemesanan() == null){
+            JOptionPane.showMessageDialog(null, "Maaf anda belum memesan", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            window.setVisible(true);
+            new Login();
         }else {
             initComponents();
             initListeners();
@@ -120,18 +124,29 @@ public class Bayar {
 
     private void bayar(){
         try{
+            JOptionPane.showMessageDialog(null, "ID "+UserSession.getIdPemesanan(),"Informasi",JOptionPane.WARNING_MESSAGE);
             statement = koneksi.getConnection().createStatement();
-            DataDompet.kurangSaldo(DataProduk.getTotal());
-            String bayar  = "INSERT INTO detail_pesanan VALUES(default,'" + UserSession.getIdPemesanan() + "','" + cKursi.getSelectedItem() + "','" + time.format(timestamp) +"','" + DataProduk.getTotal() + "','TELAH DIBAYAR')";
-            String saldo  = "UPDATE dompet set jumlah = '"+ DataDompet.getSaldo() +"' WHERE id_user='" + UserSession.getId_user() + "'";
-            String Rsaldo = "INSERT INTO riwayat_saldo VALUES(default,'"+ DataDompet.getIdDompet() +"','"+ DataDompet.getSaldo() +"','"+ time.format(timestamp) +"','PEMBELIAN')";
-            int disimpan = statement.executeUpdate(bayar);
-            int diUpdate = statement.executeUpdate(saldo);
-            int riwayatSaldo  = statement.executeUpdate(Rsaldo);
-            if(disimpan == 1 && diUpdate == 1 && riwayatSaldo == 1){
-                JOptionPane.showMessageDialog(null, "Terimakasih telah membayar pesanan!","Peringatan",JOptionPane.WARNING_MESSAGE);
+            if(DataDompet.getSaldo() <= DataProduk.getTotal()){
+                JOptionPane.showMessageDialog(null, "Mohon maaf saldo anda tidak mencukupi!","Informasi",JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Silahkan isi saldo anda!","Informasi",JOptionPane.WARNING_MESSAGE);
+            }else {
+                DataDompet.kurangSaldo(DataProduk.getTotal());
+                String bayar = "INSERT INTO detail_pesanan VALUES(default,'" + UserSession.getIdPemesanan() + "','" + cKursi.getSelectedItem() + "','" + time.format(timestamp) + "','" + DataProduk.getTotal() + "','TELAH DIBAYAR')";
+                String saldo = "UPDATE dompet set jumlah = '" + DataDompet.getSaldo() + "' WHERE id_user='" + UserSession.getId_user() + "'";
+                String Rsaldo = "INSERT INTO riwayat_saldo VALUES(default,'" + DataDompet.getIdDompet() + "','" + ("- " + DataProduk.getTotal()) + "','" + time.format(timestamp) + "','PEMBELIAN')";
+                String Rpemesanan = "DELETE FROM pemesanan WHERE id_pemesanan='"+ UserSession.getIdPemesanan() +"'";
+                int disimpan = statement.executeUpdate(bayar);
+                int diUpdate = statement.executeUpdate(saldo);
+                int riwayatSaldo = statement.executeUpdate(Rsaldo);
+                int hapusPemesanan = statement.executeUpdate(Rpemesanan);
+                if (disimpan == 1 && diUpdate == 1 && riwayatSaldo == 1 && hapusPemesanan == 1) {
+                    JOptionPane.showMessageDialog(null, "Terimakasih telah membayar pesanan!", "Informasi", JOptionPane.WARNING_MESSAGE);
+                    UserSession.setIdPemesanan(null);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Pembayaran gagal!", "Informasi", JOptionPane.WARNING_MESSAGE);
+                }
+                statement.close();
             }
-            statement.close();
         }catch (SQLException sqlError) {
             JOptionPane.showMessageDialog(null, "Data Gagal Ditampilkan" + sqlError);
         } catch (ClassNotFoundException classError) {
