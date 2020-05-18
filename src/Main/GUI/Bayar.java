@@ -19,24 +19,25 @@ import java.util.Locale;
 
 public class Bayar {
     Koneksi koneksi = new Koneksi();
+    Statement statement;
+
     private static final SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-
-    ResultSet resultSet;
-    Statement statement;
     NumberFormat nf = NumberFormat.getInstance(new Locale("da", "DK"));
 
+    // Label
     JFrame window         = new JFrame("PEMBAYARAN");
-    DataProduk produk     = new DataProduk();
     JLabel lIdPesanan     = new JLabel("ID Pesanan");
-    JTextField fIdPesanan = new JTextField();
     JLabel lTotal         = new JLabel("Total");
-    JTextField fTotal     = new JTextField();
     JLabel lKursi         = new JLabel("KURSI");
+    // Text Field
+    JTextField fIdPesanan = new JTextField();
+    JTextField fTotal     = new JTextField();
+    // Button
+    JButton bBayar        = new JButton("Bayar");
+    JButton bKembali      = new JButton("Kembali");
+    // Combo Box
     JComboBox<String> cKursi = new JComboBox<>();
-
-    JButton bBayar  = new JButton("Bayar");
-    JButton bKembali = new JButton("Kembali");
 
 
     public Bayar(){
@@ -45,33 +46,8 @@ public class Bayar {
             window.setVisible(true);
             new Login();
         }else {
-            TabelPesanan tabelPesanan = new TabelPesanan();
             initComponents();
-
-            window.setLayout(null);
-            window.setSize(420, 210);
-            window.setVisible(true);
-            window.setLocationRelativeTo(null);
-            window.setResizable(false);
-
-            bBayar.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    bayar();
-                    tabelPesanan.window.setVisible(false);
-                    window.setVisible(false);
-                    new MenuUtama();
-                }
-            });
-
-            bKembali.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    tabelPesanan.window.setVisible(false);
-                    window.setVisible(false);
-                    new MenuUtama();
-                }
-            });
+            initListeners();
         }
     }
 
@@ -104,14 +80,42 @@ public class Bayar {
                 cKursi.addItem("00"+i);
             }
         window.add(bBayar);
-        bBayar.setBounds(140,130,110,25);
-        bBayar.setForeground(new Color(255,255,255));
-        bBayar.setBackground(new Color(58, 133, 86));
+            bBayar.setBounds(140,130,110,25);
+            bBayar.setForeground(new Color(255,255,255));
+            bBayar.setBackground(new Color(58, 133, 86));
 
         window.add(bKembali);
-        bKembali.setBounds(260,130,90,25);
-        bKembali.setForeground(new Color(255,255,255));
-        bKembali.setBackground(new Color(145, 141, 58));
+            bKembali.setBounds(260,130,90,25);
+            bKembali.setForeground(new Color(255,255,255));
+            bKembali.setBackground(new Color(145, 141, 58));
+
+        window.setLayout(null);
+        window.setSize(420, 210);
+        window.setVisible(true);
+        window.setLocationRelativeTo(null);
+        window.setResizable(false);
+    }
+
+    private void initListeners(){
+        TabelPesanan tabelPesanan = new TabelPesanan();
+        bBayar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                bayar();
+                tabelPesanan.window.setVisible(false);
+                window.setVisible(false);
+                new MenuUtama();
+            }
+        });
+
+        bKembali.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tabelPesanan.window.setVisible(false);
+                window.setVisible(false);
+                new MenuUtama();
+            }
+        });
     }
 
     private void bayar(){

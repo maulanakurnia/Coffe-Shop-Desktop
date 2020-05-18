@@ -22,9 +22,6 @@ public class TabelPesanan {
     public TabelPesanan(){
         initComponents();
         loadData();
-        window.setSize(470, 420);
-        window.setVisible(true);
-        window.setLocationRelativeTo(null);
     }
 
     private void initComponents() {
@@ -33,6 +30,10 @@ public class TabelPesanan {
             window.add(scrollPane);
             scrollPane.setBounds(70, 70, 400, 400);
             scrollPane.setBackground(new Color(247, 252, 255));
+
+        window.setSize(470, 420);
+        window.setVisible(true);
+        window.setLocationRelativeTo(null);
     }
 
     private void loadData(){

@@ -23,23 +23,23 @@ public class TabelProduk {
     public TabelProduk() {
         initComponents();
         loadData();
-        window.setSize(470, 420);
-        window.setVisible(true);
-        window.setLocationRelativeTo(null);
     }
 
     private void initComponents(){
         window.getContentPane().setBackground(new Color(28, 27, 27));
         TableColumnModel columnModel = tTable.getColumnModel();
-        columnModel.getColumn(0).setPreferredWidth(150);
-        columnModel.getColumn(1).setPreferredWidth(60);
-        columnModel.getColumn(2).setPreferredWidth(10);
-        window.add(scrollPane,BorderLayout.CENTER);
-        tTable.setEnabled(false);
-        tTable.setFont(new Font("Arial", Font.BOLD,17));
-        tTable.setRowHeight(30);
+            columnModel.getColumn(0).setPreferredWidth(150);
+            columnModel.getColumn(1).setPreferredWidth(60);
+            columnModel.getColumn(2).setPreferredWidth(10);
+            window.add(scrollPane,BorderLayout.CENTER);
+                tTable.setEnabled(false);
+                tTable.setFont(new Font("Arial", Font.BOLD,17));
+                tTable.setRowHeight(30);
+            scrollPane.setBounds(70, 70, 400, 400);
 
-        scrollPane.setBounds(70, 70, 400, 400);
+        window.setSize(470, 420);
+        window.setVisible(true);
+        window.setLocationRelativeTo(null);
     }
 
     private void loadData(){

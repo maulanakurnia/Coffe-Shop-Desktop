@@ -16,23 +16,22 @@ import java.util.List;
 
 
 public class Pesan extends JFrame{
-		Koneksi koneksi = new Koneksi();
-		ResultSet resultSet;
-		Statement statement;
+	Koneksi koneksi = new Koneksi();
+	ResultSet resultSet;
+	Statement statement;
 
-		DataProduk produk;
-		List<DataProduk> produks=new ArrayList<>();
+	DataProduk produk;
+	List<DataProduk> produks=new ArrayList<>();
 
-		boolean pesan = false;
+	boolean pesan = false;
 
-		JFrame window	 = new JFrame("PESAN KOPI");
-		JLabel lKopi	 = new JLabel("Kopi");
-		JComboBox<Object> cKopi	 = new JComboBox<>();
-		JLabel lJmlh	 = new JLabel("Jumlah");
-		JTextField fjmlh = new JTextField();
-		JButton bPesan	 = new JButton("Pesan");
-		JButton bKembali = new JButton("Kembali");
-
+	JFrame window	 = new JFrame("PESAN KOPI");
+	JLabel lKopi	 = new JLabel("Kopi");
+	JComboBox<Object> cKopi	 = new JComboBox<>();
+	JLabel lJmlh	 = new JLabel("Jumlah");
+	JTextField fjmlh = new JTextField();
+	JButton bPesan	 = new JButton("Pesan");
+	JButton bKembali = new JButton("Kembali");
 
 	public Pesan(){
 		if(UserSession.getId_user() == null){
@@ -40,60 +39,9 @@ public class Pesan extends JFrame{
 			window.setVisible(false);
 			new Login();
 		}else {
-			DataProduk produk = new DataProduk();
-			TabelProduk tabelProduk = new TabelProduk();
 			initComponents();
+			initListeners();
 			loadKopi();
-			window.setLayout(null);
-			window.setSize(390, 200);
-			window.setVisible(true);
-			window.setLocationRelativeTo(null);
-			window.setResizable(false);
-
-			bPesan.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-
-					produk.setHarga(produks.get(cKopi.getSelectedIndex()).getHarga());
-					produk.setStok(produks.get(cKopi.getSelectedIndex()).getStok());
-					DataProduk.setTotal(produks.get(cKopi.getSelectedIndex()).getHarga() * Integer.parseInt(fjmlh.getText()));
-
-					pesanKopi(produks.get(cKopi.getSelectedIndex()).getIdKopi(), fjmlh.getText());
-					if (pesan = true) {
-						window.setVisible(false);
-						JOptionPane.showMessageDialog(null, "Berhasil Memesan!");
-						int result = JOptionPane.showConfirmDialog(null, "Ingin Memesan Lagi?", "INFO", JOptionPane.YES_NO_OPTION);
-						if (result == JOptionPane.YES_OPTION) {
-							tabelProduk.window.setVisible(false);
-							window.setVisible(false);
-							new Pesan();
-						} else {
-							int result2 = JOptionPane.showConfirmDialog(null, "Ingin Membayar?", "INFO", JOptionPane.YES_NO_OPTION);
-							if (result2 == JOptionPane.YES_OPTION) {
-								tabelProduk.window.setVisible(false);
-								window.setVisible(false);
-								new Bayar();
-							} else {
-								tabelProduk.window.setVisible(false);
-								window.setVisible(false);
-								new MenuUtama();
-							}
-						}
-					} else {
-						JOptionPane.showMessageDialog(null, "gagal Memesan!");
-					}
-
-				}
-			});
-
-			bKembali.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					tabelProduk.window.setVisible(false);
-					window.setVisible(false);
-					new MenuUtama();
-				}
-			});
 		}
 	}
 
@@ -121,10 +69,65 @@ public class Pesan extends JFrame{
 		bKembali.setBounds(230,100,90,25);
 		bKembali.setForeground(new Color(255,255,255));
 		bKembali.setBackground(new Color(145, 141, 58));
+
+		window.setLayout(null);
+		window.setSize(390, 200);
+		window.setVisible(true);
+		window.setLocationRelativeTo(null);
+		window.setResizable(false);
+	}
+	
+	private void initListeners(){
+		DataProduk produk = new DataProduk();
+		TabelProduk tabelProduk = new TabelProduk();
+		bPesan.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				produk.setHarga(produks.get(cKopi.getSelectedIndex()).getHarga());
+				produk.setStok(produks.get(cKopi.getSelectedIndex()).getStok());
+				DataProduk.setTotal(produks.get(cKopi.getSelectedIndex()).getHarga() * Integer.parseInt(fjmlh.getText()));
+
+				pesanKopi(produks.get(cKopi.getSelectedIndex()).getIdKopi(), fjmlh.getText());
+				if (pesan = true) {
+					window.setVisible(false);
+					JOptionPane.showMessageDialog(null, "Berhasil Memesan!");
+					int result = JOptionPane.showConfirmDialog(null, "Ingin Memesan Lagi?", "INFO", JOptionPane.YES_NO_OPTION);
+					if (result == JOptionPane.YES_OPTION) {
+						tabelProduk.window.setVisible(false);
+						window.setVisible(false);
+						new Pesan();
+					} else {
+						int result2 = JOptionPane.showConfirmDialog(null, "Ingin Membayar?", "INFO", JOptionPane.YES_NO_OPTION);
+						if (result2 == JOptionPane.YES_OPTION) {
+							tabelProduk.window.setVisible(false);
+							window.setVisible(false);
+							new Bayar();
+						} else {
+							tabelProduk.window.setVisible(false);
+							window.setVisible(false);
+							new MenuUtama();
+						}
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "gagal Memesan!");
+				}
+
+			}
+		});
+
+		bKembali.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tabelProduk.window.setVisible(false);
+				window.setVisible(false);
+				new MenuUtama();
+			}
+		});
 	}
 
 
-	public void pesanKopi(String vid_kopi, String vjumlah){
+	private void pesanKopi(String vid_kopi, String vjumlah){
 		int jumlah = Integer.parseInt(vjumlah);
 		String kode;
 		try{
@@ -165,7 +168,7 @@ public class Pesan extends JFrame{
 		}
 	}
 
-	public List<DataProduk> getAllProduk() {
+	private List<DataProduk> getAllProduk() {
 		try {
 			statement = koneksi.getConnection().createStatement();
 			String sql = "SELECT * FROM produk";
