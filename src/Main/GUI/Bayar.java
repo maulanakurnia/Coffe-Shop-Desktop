@@ -40,7 +40,7 @@ public class Bayar {
 
 
     public Bayar(){
-        if(UserSession.getId_user() != null){
+        if(UserSession.getId_user() == null){
             JOptionPane.showMessageDialog(null, "Silahkan login terlebih dahulu!", "Peringatan", JOptionPane.WARNING_MESSAGE);
             window.setVisible(true);
             new Login();
