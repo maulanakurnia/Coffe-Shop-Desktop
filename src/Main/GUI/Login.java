@@ -32,7 +32,7 @@ public class Login extends JFrame {
 
 	public Login(){
 		if(UserSession.getId_user() != null){
-			window.setVisible(true);
+			window.setVisible(false);
 			new MenuUtama();
 		}else {
 			initComponents();
