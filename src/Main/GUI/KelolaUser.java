@@ -108,7 +108,7 @@ public class KelolaUser {
         window.add(bUpdate);
             bUpdate.setBounds(185, 480, 140, 30);
             bUpdate.setForeground(new Color(255,255,255));
-            bUpdate.setBackground(new Color(82, 77, 64));
+            bUpdate.setBackground(new Color(168, 168, 50));
 
         window.add(bHapus);
             bHapus.setBounds(345, 480, 140, 30);
