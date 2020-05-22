@@ -133,12 +133,10 @@ public class Bayar {
                 String bayar = "INSERT INTO detail_pesanan VALUES(default,'" + UserSession.getIdPemesanan() + "','" + cKursi.getSelectedItem() + "','" + time.format(timestamp) + "','" + DataProduk.getTotal() + "','TELAH DIBAYAR')";
                 String saldo = "UPDATE dompet set jumlah = '" + DataDompet.getSaldo() + "' WHERE id_user='" + UserSession.getId_user() + "'";
                 String Rsaldo = "INSERT INTO riwayat_saldo VALUES(default,'" + DataDompet.getIdDompet() + "','" + ("- " + DataProduk.getTotal()) + "','" + time.format(timestamp) + "','PEMBELIAN')";
-                String Rpemesanan = "DELETE FROM pemesanan WHERE id_pemesanan='"+ UserSession.getIdPemesanan() +"'";
                 int disimpan = statement.executeUpdate(bayar);
                 int diUpdate = statement.executeUpdate(saldo);
                 int riwayatSaldo = statement.executeUpdate(Rsaldo);
-                int hapusPemesanan = statement.executeUpdate(Rpemesanan);
-                if (disimpan == 1 && diUpdate == 1 && riwayatSaldo == 1 && hapusPemesanan == 1) {
+                if (disimpan == 1 && diUpdate == 1 && riwayatSaldo == 1) {
                     JOptionPane.showMessageDialog(null, "Terimakasih telah membayar pesanan!", "Informasi", JOptionPane.WARNING_MESSAGE);
                     UserSession.setIdPemesanan(null);
                 } else {
