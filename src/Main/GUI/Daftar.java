@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
@@ -130,21 +131,19 @@ public class Daftar extends JFrame{
 					fKSandi.setText("");
 				} else {
 					try {
+						ResultSet resultSet;
 						String MD5 = DataUser.getMd5(sandi);
 						statement = koneksi.getConnection().createStatement();
-						String sql = "INSERT INTO user VALUES(default,'" + nama + "','" + email + "','" + MD5 + "','" + 2 + "','" + time.format(timestamp) + "','" + time.format(timestamp) +"' )";
-						int disimpan = statement.executeUpdate(sql);
-						if(disimpan == 1){
-							JOptionPane.showMessageDialog(null, "Selamat anda berhasil mendaftar!","Peringatan",JOptionPane.WARNING_MESSAGE);
-							statement.close();
-							window.setVisible(false);
-							new Login();
-						}
-					} catch (SQLException sqlError) {
-						JOptionPane.showMessageDialog(rootPane, "Gagal mendaftar! error : " + sqlError);
-					} catch (ClassNotFoundException classError) {
-						JOptionPane.showMessageDialog(rootPane, "Driver tidak ditemukan !!");
-					}
+						String q = "INSERT INTO user VALUES(default,'" + nama + "','" + email + "','" + MD5 + "','" + 2 + "','" + time.format(timestamp) + "','" + time.format(timestamp) + "' )";
+						int disimpan = statement.executeUpdate(q);
+						String qs = "SELECT * FROM user where email='"+email+"'";
+						resultSet = statement.executeQuery(qs);
+						resultSet.next();
+						String idUser = resultSet.getString("id");
+						String is = "INSERT INTO dompet VALUES(default,'"+idUser+"',0)";
+						int disimpan2 = statement.executeUpdate(is);
+						if (disimpan == 1 && disimpan2 == 1) { JOptionPane.showMessageDialog(null, "Selamat anda berhasil daftar!", "Informasi", JOptionPane.WARNING_MESSAGE); statement.close(); window.setVisible(false); new Login(); }
+					} catch (SQLException SqlError) { JOptionPane.showMessageDialog(null, "Gagal mendaftar! error : " + SqlError); } catch (ClassNotFoundException classError) { JOptionPane.showMessageDialog(null, "Driver tidak ditemukan !!"); }
 				}
 			}
 		});
