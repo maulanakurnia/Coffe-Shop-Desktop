@@ -13,7 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class Login extends JFrame {
+public class Login extends JFrame{
 	ResultSet resultSet;
 	Statement statement;
 	String id,nama,idDompet= null;
