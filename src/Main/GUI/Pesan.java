@@ -80,40 +80,36 @@ public class Pesan extends JFrame{
 	private void initListeners(){
 		DataProduk produk = new DataProduk();
 		TabelProduk tabelProduk = new TabelProduk();
-		bPesan.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+		bPesan.addActionListener(e -> {
+			produk.setHarga(produks.get(cKopi.getSelectedIndex()).getHarga());
+			produk.setStok(produks.get(cKopi.getSelectedIndex()).getStok());
+			DataProduk.setTotal(produks.get(cKopi.getSelectedIndex()).getHarga() * Integer.parseInt(fjmlh.getText()));
 
-				produk.setHarga(produks.get(cKopi.getSelectedIndex()).getHarga());
-				produk.setStok(produks.get(cKopi.getSelectedIndex()).getStok());
-				DataProduk.setTotal(produks.get(cKopi.getSelectedIndex()).getHarga() * Integer.parseInt(fjmlh.getText()));
-
-				pesanKopi(produks.get(cKopi.getSelectedIndex()).getIdKopi(), fjmlh.getText());
-				if (pesan = true) {
+			pesanKopi(produks.get(cKopi.getSelectedIndex()).getIdKopi(), fjmlh.getText());
+			if (pesan = true) {
+				window.setVisible(false);
+				JOptionPane.showMessageDialog(null, "Berhasil Memesan!");
+				int result = JOptionPane.showConfirmDialog(null, "Ingin Memesan Lagi?", "INFO", JOptionPane.YES_NO_OPTION);
+				if (result == JOptionPane.YES_OPTION) {
+					tabelProduk.window.setVisible(false);
 					window.setVisible(false);
-					JOptionPane.showMessageDialog(null, "Berhasil Memesan!");
-					int result = JOptionPane.showConfirmDialog(null, "Ingin Memesan Lagi?", "INFO", JOptionPane.YES_NO_OPTION);
-					if (result == JOptionPane.YES_OPTION) {
+					new Pesan();
+				} else {
+					int result2 = JOptionPane.showConfirmDialog(null, "Ingin Membayar?", "INFO", JOptionPane.YES_NO_OPTION);
+					if (result2 == JOptionPane.YES_OPTION) {
 						tabelProduk.window.setVisible(false);
 						window.setVisible(false);
-						new Pesan();
+						new Bayar();
 					} else {
-						int result2 = JOptionPane.showConfirmDialog(null, "Ingin Membayar?", "INFO", JOptionPane.YES_NO_OPTION);
-						if (result2 == JOptionPane.YES_OPTION) {
-							tabelProduk.window.setVisible(false);
-							window.setVisible(false);
-							new Bayar();
-						} else {
-							tabelProduk.window.setVisible(false);
-							window.setVisible(false);
-							new MenuUtama();
-						}
+						tabelProduk.window.setVisible(false);
+						window.setVisible(false);
+						new MenuUtama();
 					}
-				} else {
-					JOptionPane.showMessageDialog(null, "gagal Memesan!");
 				}
-
+			} else {
+				JOptionPane.showMessageDialog(null, "gagal Memesan!");
 			}
+
 		});
 
 		bKembali.addActionListener(new ActionListener() {
@@ -130,6 +126,7 @@ public class Pesan extends JFrame{
 	private void pesanKopi(String vid_kopi, String vjumlah){
 		int jumlah = Integer.parseInt(vjumlah);
 		String kode;
+		kurangStok(vid_kopi,jumlah);
 		try{
 			if(UserSession.getIdPemesanan() == null) {
 				statement = koneksi.getConnection().createStatement();
@@ -151,6 +148,7 @@ public class Pesan extends JFrame{
 						UserSession.setIdPemesanan(kode);
 					}
 					statement.executeUpdate("INSERT INTO pemesanan VALUES('" + kode + "','" + UserSession.getId_user() + "','" + vid_kopi + "','" + jumlah + "')");
+					statement.executeUpdate("UPDATE produk set stok='"+kurangStok(vid_kopi,jumlah)+"' WHERE id_kopi='"+vid_kopi+"'");
 					pesan = true;
 				}
 			}else{
@@ -166,6 +164,25 @@ public class Pesan extends JFrame{
 		}catch (NumberFormatException e){
 			System.err.println("error"+e);
 		}
+	}
+
+	private int kurangStok(String vid, int vjumlah){
+		int stok = 0;
+		try{
+			statement = koneksi.getConnection().createStatement();
+			String query = "SELECT * FROM produk WHERE id_kopi='"+ vid +"'";
+			resultSet = statement.executeQuery(query);
+			resultSet.next();
+			stok = resultSet.getInt("stok");
+			stok -= vjumlah;
+		}catch (SQLException sqlError) {
+			JOptionPane.showMessageDialog(rootPane, "Data Gagal Ditampilkan" + sqlError);
+		} catch (ClassNotFoundException classError) {
+			JOptionPane.showMessageDialog(rootPane, "Driver tidak ditemukan !!");
+		}catch (NumberFormatException e){
+			System.err.println("error"+e);
+		}
+		return stok;
 	}
 
 	private List<DataProduk> getAllProduk() {
